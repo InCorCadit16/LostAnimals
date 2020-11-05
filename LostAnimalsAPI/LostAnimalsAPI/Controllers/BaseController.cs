@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LostAnimalsAPI.Controllers
 {
-    [ApiController]
+    //[Authorize]
     [Route("api/[controller]")]
+    [ApiController]
     public class BaseController: ControllerBase
     {
     }

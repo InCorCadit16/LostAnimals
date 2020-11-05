@@ -1,10 +1,12 @@
 ﻿using LostAnimalsAPI.Models;
+using LostAnimalsAPI.Models.Auth;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace LostAnimalsAPI.Database
 {
-    public class AnimalsDbContext: DbContext
+    public class AnimalsDbContext: IdentityDbContext<ApplicationUser, Role, long>
     {
 
         public AnimalsDbContext(DbContextOptions<AnimalsDbContext> options) : base(options)

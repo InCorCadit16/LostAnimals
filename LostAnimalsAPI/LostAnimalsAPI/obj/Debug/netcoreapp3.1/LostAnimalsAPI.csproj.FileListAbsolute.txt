@@ -48,8 +48,6 @@ C:\Users\Admin\source\repos\LostAnimals\LostAnimalsAPI\LostAnimalsAPI\bin\Debug\
 C:\Users\Admin\source\repos\LostAnimals\LostAnimalsAPI\LostAnimalsAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Admin\source\repos\LostAnimals\LostAnimalsAPI\LostAnimalsAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Admin\source\repos\LostAnimals\LostAnimalsAPI\LostAnimalsAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\Admin\source\repos\LostAnimals\LostAnimalsAPI\LostAnimalsAPI\obj\Debug\netcoreapp3.1\LostAnimalsAPI.csproj.CoreCompileInputs.cache
-C:\Users\Admin\source\repos\LostAnimals\LostAnimalsAPI\LostAnimalsAPI\obj\Debug\netcoreapp3.1\LostAnimalsAPI.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Admin\source\repos\LostAnimals\LostAnimalsAPI\LostAnimalsAPI\bin\Debug\netcoreapp3.1\LostAnimalsAPI.deps.json
 C:\Users\Admin\source\repos\LostAnimals\LostAnimalsAPI\LostAnimalsAPI\bin\Debug\netcoreapp3.1\LostAnimalsAPI.runtimeconfig.json
 C:\Users\Admin\source\repos\LostAnimals\LostAnimalsAPI\LostAnimalsAPI\bin\Debug\netcoreapp3.1\LostAnimalsAPI.runtimeconfig.dev.json
@@ -59,3 +57,11 @@ C:\Users\Admin\source\repos\LostAnimals\LostAnimalsAPI\LostAnimalsAPI\bin\Debug\
 C:\Users\Admin\source\repos\LostAnimals\LostAnimalsAPI\LostAnimalsAPI\obj\Debug\netcoreapp3.1\LostAnimalsAPI.dll
 C:\Users\Admin\source\repos\LostAnimals\LostAnimalsAPI\LostAnimalsAPI\obj\Debug\netcoreapp3.1\LostAnimalsAPI.pdb
 C:\Users\Admin\source\repos\LostAnimals\LostAnimalsAPI\LostAnimalsAPI\obj\Debug\netcoreapp3.1\LostAnimalsAPI.genruntimeconfig.cache
+C:\Users\Admin\source\repos\LostAnimals\LostAnimalsAPI\LostAnimalsAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Admin\source\repos\LostAnimals\LostAnimalsAPI\LostAnimalsAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\Admin\source\repos\LostAnimals\LostAnimalsAPI\LostAnimalsAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\Admin\source\repos\LostAnimals\LostAnimalsAPI\LostAnimalsAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\Admin\source\repos\LostAnimals\LostAnimalsAPI\LostAnimalsAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Core.dll
+C:\Users\Admin\source\repos\LostAnimals\LostAnimalsAPI\LostAnimalsAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\Admin\source\repos\LostAnimals\LostAnimalsAPI\LostAnimalsAPI\obj\Debug\netcoreapp3.1\LostAnimalsAPI.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\LostAnimals\LostAnimalsAPI\LostAnimalsAPI\obj\Debug\netcoreapp3.1\LostAnimalsAPI.MvcApplicationPartsAssemblyInfo.cache
