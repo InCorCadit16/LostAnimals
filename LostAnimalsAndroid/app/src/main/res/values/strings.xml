@@ -1,6 +1,13 @@
 <resources>
+    <!-- Settings -->
     <string name="app_name">LostAnimalsAndroid</string>
+    <string name="base_url">http://10.0.2.2:5000/api/</string>
     <string name="map_api_key">AIzaSyBoOipA49EfuuPq1w6WO4GJZp1gRFZQIuY</string>
+    <!-- Errors -->
+    <string name="request_error">Failed to make a request</string>
+    <string name="login_error">Wrong email or password</string>
+    <string name="phone_format_error">Wrong number format</string>
+    <!-- Text -->
     <string name="login">Login</string>
     <string name="email">Email</string>
     <string name="password">Password</string>

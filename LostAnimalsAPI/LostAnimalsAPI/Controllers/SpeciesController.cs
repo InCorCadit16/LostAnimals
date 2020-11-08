@@ -16,7 +16,7 @@ namespace LostAnimalsAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> GetSpecies()
         {
             return Ok(await _speciesService.GetSpecies());

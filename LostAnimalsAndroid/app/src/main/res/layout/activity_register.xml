@@ -1,7 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:background="@color/colorPrimary">
 
         <RelativeLayout
@@ -37,7 +36,8 @@
                 android:layout_marginTop="20dp"
                 android:textColor="@color/textColorPrimary"
                 android:textColorHint="@color/textColorPrimary"
-                android:hint="@string/email" />
+                android:hint="@string/email"
+                android:inputType="textWebEmailAddress"/>
 
             <EditText
                 android:id="@+id/register_first_name"
@@ -70,7 +70,8 @@
                 android:layout_marginTop="20dp"
                 android:textColor="@color/textColorPrimary"
                 android:textColorHint="@color/textColorPrimary"
-                android:hint="@string/phone" />
+                android:hint="@string/phone"
+                android:inputType="phone"/>
 
             <EditText
                 android:id="@+id/register_password"
@@ -81,7 +82,8 @@
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/textColorPrimary"
                 android:textColorHint="@color/textColorPrimary"
-                android:hint="@string/password" />
+                android:hint="@string/password"
+                android:inputType="textPassword"/>
 
             <EditText
                 android:id="@+id/register_password_repeat"
@@ -92,11 +94,12 @@
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/textColorPrimary"
                 android:textColorHint="@color/textColorPrimary"
-                android:hint="@string/repeat_password" />
+                android:hint="@string/repeat_password"
+                android:inputType="textPassword"/>
 
 
             <Button
-                android:id="@+id/login_button"
+                android:id="@+id/register_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/register"
