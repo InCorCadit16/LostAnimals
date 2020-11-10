@@ -20,17 +20,19 @@ public class AuthenticationInterceptor implements Interceptor {
         this.ctx = ctx;
     }
 
+    @NotNull
     @Override
     public Response intercept(@NotNull Chain chain) throws IOException {
         AuthenticationService service = AuthenticationService.getAuthenticationService(ctx);
+        String token = service.retrieveToken(ctx);
         Request request = chain.request();
 
-        if (service.token == null) {
+        if (token == null) {
             return chain.proceed(request);
         }
 
         request = request.newBuilder()
-                .addHeader("Authentication", "Bearer " + service.token)
+                .addHeader("Authorization", "Bearer " + service.token)
                 .build();
 
         return chain.proceed(request);

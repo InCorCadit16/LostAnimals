@@ -17,6 +17,7 @@ import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.pbl.animals.R;
+import com.pbl.animals.models.User;
 import com.pbl.animals.models.contracts.requests.LoginRequest;
 import com.pbl.animals.models.contracts.responses.LoginResponse;
 import com.pbl.animals.services.AuthenticationService;
@@ -49,6 +50,8 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
 
         authService = AuthenticationService.getAuthenticationService(this);
 
+        tryLogin();
+
         loginEmail = findViewById(R.id.login_email);
         loginPassword = findViewById(R.id.login_password);
         loginButton = findViewById(R.id.login_button);
@@ -73,12 +76,13 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
         LoginRequest request = new LoginRequest();
         request.email = loginEmail.getText().toString();
         request.password = loginPassword.getText().toString();
-        this.authService.Login(request, new Callback<LoginResponse>() {
+        this.authService.login(request, new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.body().result.succeeded) {
                     authService.token = response.body().token;
                     authService.user = response.body().user;
+                    authService.saveToken(LoginActivity.this);
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else {
@@ -104,6 +108,27 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
             } else {
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+    private void tryLogin() {
+        String token = authService.retrieveToken(this);
+        if (token != null) {
+            authService.getUser(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    if (response.isSuccessful()) {
+                        authService.user = response.body();
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+
+                }
+            });
         }
     }
 }

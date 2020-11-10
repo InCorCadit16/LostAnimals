@@ -32,6 +32,11 @@ namespace LostAnimalsAPI.Services
             _userManager = userManager;
         }
 
+        public async Task<ApplicationUser> GetUser(string userEmail)
+        {
+            return await _userManager.FindByEmailAsync(userEmail);
+        }
+
 
         public async Task<LoginResponse> LoginUser(LoginRequest request)
         {

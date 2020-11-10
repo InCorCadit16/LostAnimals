@@ -3,14 +3,16 @@
     <string name="app_name">LostAnimalsAndroid</string>
     <string name="base_url">http://10.0.2.2:5000/api/</string>
     <string name="map_api_key">AIzaSyBoOipA49EfuuPq1w6WO4GJZp1gRFZQIuY</string>
+    <string name="auth_file_name">auth_data</string>
+    <string name="token_name">jwt_token</string>
     <!-- Errors -->
     <string name="request_error">Failed to make a request</string>
     <string name="login_error">Wrong email or password</string>
     <string name="phone_format_error">Wrong number format</string>
     <!-- Text -->
     <string name="login">Login</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
+    <string name="email">Email*</string>
+    <string name="password">Password*</string>
     <string name="register_phrase">Don\'t have an account yet?</string>
     <string name="register">Register</string>
     <string name="map">Map</string>
@@ -19,9 +21,9 @@
     <string name="list_of_shelters">List of Shelters</string>
     <string name="create_account">Create Account</string>
     <string name="pick_image">Pick image</string>
-    <string name="first_name">First Name</string>
+    <string name="first_name">First Name*</string>
     <string name="last_name">Last Name</string>
     <string name="phone">Phone</string>
-    <string name="repeat_password">Repeat password</string>
+    <string name="repeat_password">Repeat password*</string>
 
 </resources>

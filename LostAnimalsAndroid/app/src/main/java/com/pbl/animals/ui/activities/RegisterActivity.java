@@ -18,6 +18,7 @@ import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.pbl.animals.R;
+import com.pbl.animals.models.User;
 import com.pbl.animals.models.contracts.requests.RegistrationRequest;
 import com.pbl.animals.models.contracts.responses.RegistrationResponse;
 import com.pbl.animals.models.inner.IdentityError;
@@ -93,13 +94,14 @@ public class RegisterActivity extends AppCompatActivity implements Validator.Val
         request.password = registerPassword.getText().toString();
         request.passwordRepeat = registerPasswordRepeat.getText().toString();
 
-        authService.Register(request, new Callback<RegistrationResponse>() {
+        authService.register(request, new Callback<RegistrationResponse>() {
             @Override
             public void onResponse(Call<RegistrationResponse> call, Response<RegistrationResponse> response) {
                 if (response.isSuccessful()) {
                     if (response.body().result.succeeded) {
                         authService.token = response.body().token;
                         authService.user = response.body().user;
+                        authService.saveToken(RegisterActivity.this);
                         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                         startActivity(intent);
                     } else {
@@ -132,4 +134,6 @@ public class RegisterActivity extends AppCompatActivity implements Validator.Val
             }
         }
     }
+
+
 }

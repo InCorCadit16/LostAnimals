@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.pbl.animals.models.Species;
+import com.pbl.animals.models.User;
 import com.pbl.animals.models.contracts.requests.LoginRequest;
 import com.pbl.animals.models.contracts.requests.RegistrationRequest;
 import com.pbl.animals.models.contracts.responses.LoginResponse;
@@ -27,6 +28,9 @@ interface LostAnimalsApi {
 
     @POST("auth/logout")
     Call<Void> logout();
+
+    @GET("auth/user")
+    Call<User> getUser();
 
     // Species
     @GET("species")

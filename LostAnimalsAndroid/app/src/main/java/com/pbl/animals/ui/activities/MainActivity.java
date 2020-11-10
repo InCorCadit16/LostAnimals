@@ -2,6 +2,7 @@ package com.pbl.animals.ui.activities;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,20 +14,30 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.navigation.NavigationView;
 import com.pbl.animals.R;
+import com.pbl.animals.services.AuthenticationService;
 import com.pbl.animals.ui.fragments.MapFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private AuthenticationService authService;
+
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+
+    private TextView userName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        authService = AuthenticationService.getAuthenticationService(this);
+
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
+
+        userName = navigationView.getHeaderView(0).findViewById(R.id.user_name);
+        userName.setText(authService.user.getFullName());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

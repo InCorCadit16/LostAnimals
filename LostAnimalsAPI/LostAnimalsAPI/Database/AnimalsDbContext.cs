@@ -24,5 +24,7 @@ namespace LostAnimalsAPI.Database
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
+
+        public DbSet<SpeciesLookup> SpeciesLookup { get; set; }
     }
 }
