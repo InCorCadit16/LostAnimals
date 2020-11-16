@@ -58,6 +58,15 @@ namespace LostAnimalsAPI.Controllers
         }
 
 
+        [HttpGet]
+        public async Task<IActionResult> GetPostById([FromQuery] UInt32 byId )
+        {
+            //idk if .Where handles case when there is no such data in db
+            var post = await _ctx.Posts.Where(u => u.Id == byId).ToListAsync();
+
+            return Ok(post);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Post post)
         {
