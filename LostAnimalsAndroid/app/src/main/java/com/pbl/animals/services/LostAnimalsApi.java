@@ -1,20 +1,22 @@
 package com.pbl.animals.services;
 
-import android.app.Activity;
-import android.content.Context;
 
-import com.pbl.animals.models.Species;
+import com.pbl.animals.models.Post;
 import com.pbl.animals.models.User;
 import com.pbl.animals.models.contracts.requests.LoginRequest;
 import com.pbl.animals.models.contracts.requests.RegistrationRequest;
 import com.pbl.animals.models.contracts.responses.LoginResponse;
 import com.pbl.animals.models.contracts.responses.RegistrationResponse;
+import com.pbl.animals.models.inner.SpeciesLookup;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 interface LostAnimalsApi {
 
@@ -34,5 +36,13 @@ interface LostAnimalsApi {
 
     // Species
     @GET("species")
-    Call<Species> getSpecies();
+    Call<SpeciesLookup> getSpecies();
+
+    // Posts
+
+    @GET("post")
+    Call<List<Post>> getPosts(@Query("forMap") boolean forMap);
+
+    @POST("post")
+    Call<Void> makePost(Post post);
 }

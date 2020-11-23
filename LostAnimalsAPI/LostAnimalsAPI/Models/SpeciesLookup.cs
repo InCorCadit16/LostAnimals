@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace LostAnimalsAPI.Models
 {
@@ -6,5 +7,6 @@ namespace LostAnimalsAPI.Models
     {
         public string Name { get; set; }
 
+        public ICollection<BreedLookup> Breeds { get; set; }
     }
 }

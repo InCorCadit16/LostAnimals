@@ -1,5 +1,4 @@
 ﻿using LostAnimalsAPI.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -16,7 +15,6 @@ namespace LostAnimalsAPI.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> GetSpecies()
         {
             return Ok(await _speciesService.GetSpecies());

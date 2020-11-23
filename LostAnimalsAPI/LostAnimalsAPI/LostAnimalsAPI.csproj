@@ -5,8 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20201115155038_ImprovedPostModel.cs" />
+    <Compile Remove="Migrations\20201115155038_ImprovedPostModel.Designer.cs" />
+    <Compile Remove="Migrations\20201115155318_ImprovedPostModel.cs" />
+    <Compile Remove="Migrations\20201115155318_ImprovedPostModel.Designer.cs" />
+    <Compile Remove="Migrations\20201115170222_fixedAddressNaming.cs" />
+    <Compile Remove="Migrations\20201115170222_fixedAddressNaming.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.9" />
@@ -15,6 +25,13 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="assets\posts\" />
+    <Folder Include="assets\images\" />
+    <Folder Include="assets\default\" />
   </ItemGroup>
 
 

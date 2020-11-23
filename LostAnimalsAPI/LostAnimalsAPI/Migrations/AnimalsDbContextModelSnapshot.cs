@@ -121,7 +121,7 @@ namespace LostAnimalsAPI.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("LostAnimalsAPI.Models.Color", b =>
+            modelBuilder.Entity("LostAnimalsAPI.Models.BreedLookup", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -131,7 +131,29 @@ namespace LostAnimalsAPI.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("SpeciesId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("SpeciesId");
+
+                    b.ToTable("Breeds");
+                });
+
+            modelBuilder.Entity("LostAnimalsAPI.Models.ColorLookup", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name");
 
                     b.ToTable("Colors");
                 });
@@ -149,12 +171,18 @@ namespace LostAnimalsAPI.Migrations
                     b.Property<double>("Latitude")
                         .HasColumnType("float");
 
-                    b.Property<double>("Longtitude")
+                    b.Property<double>("Longitude")
                         .HasColumnType("float");
+
+                    b.Property<long>("PostId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Locaitons");
+                    b.HasIndex("PostId")
+                        .IsUnique();
+
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("LostAnimalsAPI.Models.Post", b =>
@@ -164,23 +192,20 @@ namespace LostAnimalsAPI.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("AdressId")
-                        .HasColumnType("bigint");
-
                     b.Property<long?>("AuthorId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Breed")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long?>("BreedId")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("Color")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long?>("ColorId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LostTime")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("LostTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("PostTime")
                         .HasColumnType("datetime2");
@@ -191,14 +216,18 @@ namespace LostAnimalsAPI.Migrations
                     b.Property<int>("Size")
                         .HasColumnType("int");
 
-                    b.Property<string>("Species")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long?>("SpeciesId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdressId");
-
                     b.HasIndex("AuthorId");
+
+                    b.HasIndex("BreedId");
+
+                    b.HasIndex("ColorId");
+
+                    b.HasIndex("SpeciesId");
 
                     b.ToTable("Posts");
                 });
@@ -211,12 +240,11 @@ namespace LostAnimalsAPI.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("Name");
+                    b.HasIndex("Name");
 
                     b.ToTable("SpeciesLookup");
                 });
@@ -345,15 +373,39 @@ namespace LostAnimalsAPI.Migrations
                     b.HasDiscriminator().HasValue("UserRole");
                 });
 
+            modelBuilder.Entity("LostAnimalsAPI.Models.BreedLookup", b =>
+                {
+                    b.HasOne("LostAnimalsAPI.Models.SpeciesLookup", "Species")
+                        .WithMany("Breeds")
+                        .HasForeignKey("SpeciesId");
+                });
+
+            modelBuilder.Entity("LostAnimalsAPI.Models.Location", b =>
+                {
+                    b.HasOne("LostAnimalsAPI.Models.Post", "Post")
+                        .WithOne("Address")
+                        .HasForeignKey("LostAnimalsAPI.Models.Location", "PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("LostAnimalsAPI.Models.Post", b =>
                 {
-                    b.HasOne("LostAnimalsAPI.Models.Location", "Adress")
-                        .WithMany()
-                        .HasForeignKey("AdressId");
-
                     b.HasOne("LostAnimalsAPI.Models.Auth.ApplicationUser", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId");
+
+                    b.HasOne("LostAnimalsAPI.Models.BreedLookup", "Breed")
+                        .WithMany()
+                        .HasForeignKey("BreedId");
+
+                    b.HasOne("LostAnimalsAPI.Models.ColorLookup", "Color")
+                        .WithMany()
+                        .HasForeignKey("ColorId");
+
+                    b.HasOne("LostAnimalsAPI.Models.SpeciesLookup", "Species")
+                        .WithMany()
+                        .HasForeignKey("SpeciesId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>

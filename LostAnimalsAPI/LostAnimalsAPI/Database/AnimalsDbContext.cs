@@ -29,8 +29,12 @@ namespace LostAnimalsAPI.Database
 
         public DbSet<Post> Posts { get; set; }
 
-        public DbSet<Color> Colors { get; set; }
+        public DbSet<Location> Locations { get; set; }
 
-        public DbSet<Location> Locaitons { get; set; }
+        public DbSet<SpeciesLookup> Species { get; set; }
+
+        public DbSet<ColorLookup> Colors { get; set; }
+
+        public DbSet<BreedLookup> Breeds { get; set; }
     }
 }

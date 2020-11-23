@@ -3,6 +3,7 @@ package com.pbl.animals.ui.activities;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,12 +15,22 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.navigation.NavigationView;
 import com.pbl.animals.R;
+import com.pbl.animals.models.Post;
 import com.pbl.animals.services.AuthenticationService;
+import com.pbl.animals.services.PostService;
 import com.pbl.animals.ui.fragments.MapFragment;
+import com.pbl.animals.ui.fragments.PostsListFragment;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private AuthenticationService authService;
+    private PostService postService;
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -32,9 +43,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         authService = AuthenticationService.getAuthenticationService(this);
+        postService = PostService.getPostService(this);
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         userName = navigationView.getHeaderView(0).findViewById(R.id.user_name);
         userName.setText(authService.user.getFullName());
@@ -70,8 +83,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 navigateToFragment(new MapFragment());
                 break;
             case R.id.nav_feed:
+                postService.getPosts(false, new Callback<List<Post>>() {
+                    @Override
+                    public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            navigateToFragment(PostsListFragment.createFragment(response.body()));
+                        } else {
+                            Toast.makeText(MainActivity.this, response.message(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Post>> call, Throwable t) {
+                        Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
                 break;
             case R.id.nav_favorite:
+                navigateToFragment(new PostsListFragment());
                 break;
             case R.id.nav_shelters:
                 break;

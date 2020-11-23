@@ -1,6 +1,7 @@
 ﻿using LostAnimalsAPI.Models.Base;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LostAnimalsAPI.Models.Auth
 {
@@ -14,5 +15,8 @@ namespace LostAnimalsAPI.Models.Auth
 
 
         public ICollection<UserRole> UserRoles { get; set; }
+
+        [NotMapped]
+        public byte[] ImageSource { get; set; }
     }
 }

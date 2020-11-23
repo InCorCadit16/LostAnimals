@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LostAnimalsAPI.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BaseController: ControllerBase

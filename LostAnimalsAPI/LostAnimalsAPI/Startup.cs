@@ -46,7 +46,7 @@ namespace LostAnimalsAPI
             services.AddDbContext<AnimalsDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("AnimalsDatabase")), ServiceLifetime.Transient);
 
-            services.AddControllers();
+            
 
             services
                 .AddIdentity<ApplicationUser, Role>(options =>
@@ -85,7 +85,7 @@ namespace LostAnimalsAPI
                 });
 
 
-       
+
             services
                 // repositories
                 .AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>))
@@ -93,8 +93,15 @@ namespace LostAnimalsAPI
                 .AddTransient<ISpeciesService, SpeciesService>()
                 .AddTransient<IAuthService, AuthService>()
                 // helpers
-                .AddTransient<ICurrentUserHelper, CurrentUserHelper>();
-                
+                .AddTransient<ICurrentUserHelper, CurrentUserHelper>()
+                .AddTransient<IFileHelper, FileHelper>();
+
+
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

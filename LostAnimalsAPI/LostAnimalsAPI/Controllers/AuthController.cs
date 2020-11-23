@@ -50,7 +50,14 @@ namespace LostAnimalsAPI.Controllers
         [HttpGet("user")]
         public async Task<IActionResult> getUser()
         {
-            return Ok(await _authService.GetUser(_userHelper.Email));
+            var user = await _authService.GetUser(_userHelper.Email);
+            return Ok(new {
+                user.FirstName,
+                user.LastName,
+                user.Id,
+                user.Email,
+                user.PhoneNumber
+            });
         }
 
 

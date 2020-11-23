@@ -8,7 +8,7 @@ namespace LostAnimalsAPI.Database.Configurations
     {
         public void Configure(EntityTypeBuilder<SpeciesLookup> builder)
         {
-            builder.HasAlternateKey(sl => sl.Name);
+            builder.HasIndex(sl => sl.Name);
         }
     }
 }

@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 
 namespace LostAnimalsAPI.Models
 {
-    public class Color:ModelBase
+    public class BreedLookup: ModelBase
     {
         public string Name { get; set; }
+
+        public SpeciesLookup Species { get; set; }
     }
 }
