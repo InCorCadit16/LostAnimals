@@ -10,6 +10,7 @@ public class User {
     public String firstName;
     public String lastName;
     public String phoneNumber;
+    public byte[] imageSource;
 
     @JsonIgnore
     public List<Post> posts;

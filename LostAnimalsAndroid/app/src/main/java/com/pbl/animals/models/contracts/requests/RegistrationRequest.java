@@ -7,4 +7,5 @@ public class RegistrationRequest {
     public String phone;
     public String password;
     public String passwordRepeat;
+    public byte[] imageSource;
 }

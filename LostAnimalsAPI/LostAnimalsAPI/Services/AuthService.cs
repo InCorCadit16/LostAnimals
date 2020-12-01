@@ -1,5 +1,6 @@
 ﻿using LostAnimalsAPI.Contracts.Requests;
 using LostAnimalsAPI.Contracts.Responses;
+using LostAnimalsAPI.Helpers.Base;
 using LostAnimalsAPI.Models.Auth;
 using LostAnimalsAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -19,22 +20,27 @@ namespace LostAnimalsAPI.Services
         private IConfiguration _configuration;
         private SignInManager<ApplicationUser> _signInManager;
         private UserManager<ApplicationUser> _userManager;
+        private IFileHelper _fileHelper;
 
         public AuthService
         (
             IConfiguration configuration,
             SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager
+            UserManager<ApplicationUser> userManager,
+            IFileHelper fileHelper
         )
         {
             _configuration = configuration;
             _signInManager = signInManager;
             _userManager = userManager;
+            _fileHelper = fileHelper;
         }
 
         public async Task<ApplicationUser> GetUser(string userEmail)
         {
-            return await _userManager.FindByEmailAsync(userEmail);
+            var user = await _userManager.FindByEmailAsync(userEmail);
+            user.ImageSource = await _fileHelper.LoadFileAsync(user.Id, false, false);
+            return user;
         }
 
 
@@ -46,12 +52,16 @@ namespace LostAnimalsAPI.Services
             if (!result.Succeeded)
                 return new LoginResponse { Result = result };
             else
+            {
+                user.ImageSource = await _fileHelper.LoadFileAsync(user.Id, false, false);
+
                 return new LoginResponse
                 {
                     Result = result,
                     User = user,
                     Token = CreateToken(user)
                 };
+            }
         }
 
         public async Task LogoutUser()
@@ -75,12 +85,22 @@ namespace LostAnimalsAPI.Services
             if (!result.Succeeded)
                 return new RegistrationResponse { Result = result };
             else
+            {
+                if (request.ImageSource != null)
+                {
+                    _fileHelper.SaveFile(user.Id, request.ImageSource);
+
+                    user.ImageSource = await _fileHelper.LoadFileAsync(user.Id, false, false);
+                }
+
                 return new RegistrationResponse
                 {
                     Result = result,
                     User = user,
                     Token = CreateToken(user)
                 };
+            }
+                
         }
 
 

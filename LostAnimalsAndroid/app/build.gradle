@@ -44,6 +44,7 @@ dependencies {
     implementation 'org.jetbrains:annotations-java5:15.0'
 
     implementation 'com.mobsandgeeks:android-saripaar:2.0.2'
+    implementation 'commons-io:commons-io:2.5'
 
     testImplementation 'junit:junit:4.12'
 

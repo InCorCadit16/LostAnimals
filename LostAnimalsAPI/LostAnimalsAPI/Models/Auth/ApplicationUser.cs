@@ -13,7 +13,6 @@ namespace LostAnimalsAPI.Models.Auth
 
         public string LastName { get; set; }
 
-
         public ICollection<UserRole> UserRoles { get; set; }
 
         [NotMapped]

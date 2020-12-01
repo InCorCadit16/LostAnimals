@@ -26,5 +26,7 @@ namespace LostAnimalsAPI.Contracts.Requests
 
         [Required]
         public string PasswordRepeat { get; set; }
+
+        public byte[] ImageSource { get; set; }
     }
 }

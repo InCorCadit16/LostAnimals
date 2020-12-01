@@ -1,7 +1,12 @@
 package com.pbl.animals.ui.activities;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -10,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
@@ -36,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
 
     private TextView userName;
+    private ImageView userIcon;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,7 +57,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         userName = navigationView.getHeaderView(0).findViewById(R.id.user_name);
+        userIcon = navigationView.getHeaderView(0).findViewById(R.id.user_icon);
         userName.setText(authService.user.getFullName());
+
+
+        Bitmap bitmap = BitmapFactory.decodeByteArray(authService.user.imageSource,
+                                                0,
+                                                       authService.user.imageSource.length);
+        userIcon.setImageBitmap(bitmap);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -56,7 +56,8 @@ namespace LostAnimalsAPI.Controllers
                 user.LastName,
                 user.Id,
                 user.Email,
-                user.PhoneNumber
+                user.PhoneNumber,
+                user.ImageSource
             });
         }
 

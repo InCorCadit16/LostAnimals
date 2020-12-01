@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -74,8 +74,8 @@ public class PostsListFragment extends Fragment {
         TextView color;
         TextView content;
         TextView lostTime;
-        Button mapButton;
-        Button commentButton;
+        ImageButton mapButton;
+        ImageButton commentButton;
 
         public PostHolder(LayoutInflater inflater,ViewGroup parent) {
             super(inflater.inflate(R.layout.post,parent,false));
