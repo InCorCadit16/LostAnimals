@@ -36,5 +36,7 @@ namespace LostAnimalsAPI.Database
         public DbSet<ColorLookup> Colors { get; set; }
 
         public DbSet<BreedLookup> Breeds { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
     }
 }

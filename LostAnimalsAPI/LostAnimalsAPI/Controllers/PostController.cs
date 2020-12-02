@@ -32,7 +32,7 @@ namespace LostAnimalsAPI.Controllers
                     .Include(p => p.Color)
                     .Include(p => p.Species)
                     .Include(p => p.Author)
-                    .Include(p => p.Address)
+                    .Include(p => p.Location)
                     .ToListAsync();
 
                 posts.ForEach(async post => { post.ImageSource = await _fileHelper.LoadFileAsync(post.Id); });
@@ -43,13 +43,13 @@ namespace LostAnimalsAPI.Controllers
                 await _ctx.Posts.ForEachAsync(async p => { p.ImageSource = await _fileHelper.LoadFileAsync(p.Id, true, false); });
 
                 var posts = await _ctx.Posts
-                    .Include(p => p.Address)
+                    .Include(p => p.Location)
                     .Select(p => new
                     {
                         p.Id,
                         p.LostTime,
                         p.ImageSource,
-                        p.Address
+                        p.Location
                     }).ToListAsync();
 
 

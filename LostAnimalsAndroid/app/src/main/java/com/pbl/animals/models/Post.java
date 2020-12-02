@@ -18,7 +18,7 @@ public class Post extends ModelBase {
     public ColorLookup color;
     public Size size;
     public String content;
-    public Location address;
+    public Location location;
     public Date lostTime;
     public Date postTime;
     public byte[] imageSource;

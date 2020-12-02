@@ -7,7 +7,10 @@ namespace LostAnimalsAPI.Models
         public double Latitude { set; get; }
         public double Longitude {set; get;}
 
-        public long PostId { get; set; }
+        public long? PostId { get; set; }
         public Post Post { get; set; }
+
+        public long? CommentId { get; set; }
+        public Comment Comment { get; set; }
     }
 }

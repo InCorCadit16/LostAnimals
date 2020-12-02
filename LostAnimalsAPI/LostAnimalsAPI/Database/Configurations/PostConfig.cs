@@ -8,7 +8,7 @@ namespace LostAnimalsAPI.Database.Configurations
     {
         public void Configure(EntityTypeBuilder<Post> builder)
         {
-            builder.HasOne(p => p.Address).WithOne(l => l.Post).HasForeignKey<Location>(l => l.PostId);
+            builder.HasOne(p => p.Location).WithOne(l => l.Post).HasForeignKey<Location>(l => l.PostId);
         }
     }
 }
