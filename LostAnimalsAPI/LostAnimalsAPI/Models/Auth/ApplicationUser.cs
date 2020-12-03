@@ -15,6 +15,8 @@ namespace LostAnimalsAPI.Models.Auth
 
         public ICollection<UserRole> UserRoles { get; set; }
 
+        public ICollection<Post> Posts { get; set; }
+
         [NotMapped]
         public byte[] ImageSource { get; set; }
     }

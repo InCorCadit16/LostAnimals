@@ -1,5 +1,6 @@
 ﻿using LostAnimalsAPI.Models.Auth;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LostAnimalsAPI.Models
@@ -13,10 +14,11 @@ namespace LostAnimalsAPI.Models
         public Size Size { get; set; }
         public string Content { get; set; }
         public PostType PostType { get; set; }
-        public Location Address { get; set; }
+        public Location Location { get; set; }
         public DateTime LostTime { get; set; }
         public DateTime PostTime { get; set; }
-        // public ICollection<Comment> Comments { get; set; }
+        
+        public ICollection<Comment> Comments { get; set; }
 
         [NotMapped]
         public byte[] ImageSource { get; set; }

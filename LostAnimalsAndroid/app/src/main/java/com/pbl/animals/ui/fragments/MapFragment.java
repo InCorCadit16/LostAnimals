@@ -68,7 +68,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         googleMap.addMarker(
                                 new MarkerOptions()
                                 .icon(icon)
-                                .position(new LatLng(post.address.latitude, post.address.longitude)));
+                                .position(new LatLng(post.location.latitude, post.location.longitude)));
                     }
                 } else {
                     Toast.makeText(getContext(), response.message(), Toast.LENGTH_LONG).show();
