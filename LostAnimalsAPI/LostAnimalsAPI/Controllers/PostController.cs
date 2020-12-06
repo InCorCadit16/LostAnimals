@@ -44,12 +44,14 @@ namespace LostAnimalsAPI.Controllers
 
                 var posts = await _ctx.Posts
                     .Include(p => p.Location)
+                    .Include(p => p.Species)
                     .Select(p => new
                     {
                         p.Id,
                         p.LostTime,
                         p.ImageSource,
-                        p.Location
+                        p.Location,
+                        p.Species
                     }).ToListAsync();
 
 
@@ -58,11 +60,10 @@ namespace LostAnimalsAPI.Controllers
         }
 
 
-        [HttpGet]
-        public async Task<IActionResult> GetPostById([FromQuery] UInt32 byId )
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPostById([FromRoute] long id)
         {
-            //idk if .Where handles case when there is no such data in db
-            var post = await _ctx.Posts.Where(u => u.Id == byId).ToListAsync();
+            var post = await _ctx.Posts.Where(u => u.Id == id).FirstOrDefaultAsync();
 
             return Ok(post);
         }

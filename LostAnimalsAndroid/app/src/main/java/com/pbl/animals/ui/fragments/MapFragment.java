@@ -62,9 +62,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     for (Post post: response.body()) {
-                        View v = markerViewFromPost(post);
-                        Bitmap markerImage = viewToBitmap(v);
-                        BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(markerImage);
+                        int icon_id = getIconId(post);
+                        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(icon_id);
                         googleMap.addMarker(
                                 new MarkerOptions()
                                 .icon(icon)
@@ -85,34 +84,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-
-    private View markerViewFromPost(Post post) {
-        LayoutInflater inflater = LayoutInflater.from(getActivity());
-        LinearLayout group = new LinearLayout(getContext());
-        group.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        View postView = inflater.inflate(R.layout.marker,new LinearLayout(getContext()),  false);
-        TextView lostTime = postView.findViewById(R.id.post_lost_time);
-        ImageView image = postView.findViewById(R.id.post_image);
-
-        SimpleDateFormat format = new SimpleDateFormat("hh:mm, dd MMM");
-        lostTime.setText(format.format(post.lostTime));
-
-        image.setImageBitmap(post.getImage());
-
-        return postView;
-    }
-
-    private Bitmap viewToBitmap(View postView) {
-        postView.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        Bitmap result = Bitmap.createBitmap(
-                postView.getMeasuredWidth(),
-                postView.getMeasuredHeight(),
-                Bitmap.Config.ARGB_8888);
-
-        Canvas c = new Canvas(result);
-        postView.layout(0, 0 , postView.getMeasuredWidth(), postView.getMeasuredHeight());
-        postView.draw(c);
-        return result;
-
+    private int getIconId(Post post) {
+        return post.species.name.equals("Dog") ? R.drawable.marker_dog : R.drawable.marker_cat;
     }
 }
