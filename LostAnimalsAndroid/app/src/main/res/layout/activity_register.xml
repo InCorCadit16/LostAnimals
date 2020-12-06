@@ -1,11 +1,7 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    android:background="@drawable/register_background">
 
         <TextView
             android:id="@+id/register_title"
@@ -13,27 +9,36 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="@string/create_account"
-            android:textSize="38sp"
-            android:layout_marginTop="50dp"
-            android:textColor="@color/textColorPrimary"/>
+            android:textAllCaps="true"
+            android:textSize="26sp"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/colorPrimary"/>
 
-        <ImageView
-            android:id="@+id/register_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:layout_height="120dp"
             android:layout_below="@id/register_title"
-            android:layout_centerHorizontal="true"/>
-
-        <Button
-            android:id="@+id/register_image_button"
-            android:layout_below="@+id/register_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
             android:layout_centerHorizontal="true"
-            android:text="@string/pick_image"
-            android:background="@color/textColorPrimary"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="10dp"
+            android:id="@+id/register_image_button">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="120dp"
+                    android:background="@color/colorPrimary"/>
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="120dp"
+                    android:rotation="45"
+                    android:background="@drawable/pick_image" />
+
+                <ImageView
+                    android:id="@+id/register_image"
+                    android:layout_width="100dp"
+                    android:layout_height="120dp"/>
+
+        </RelativeLayout>
 
         <EditText
             android:id="@+id/register_email"
@@ -41,84 +46,105 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/register_image_button"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/textColorPrimary"
-            android:textColorHint="@color/textColorPrimary"
+            android:layout_marginTop="5dp"
+            android:textSize="22sp"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
             android:hint="@string/email"
+            android:theme="@style/AccentControlTheme"
             android:inputType="textWebEmailAddress"/>
 
         <EditText
             android:id="@+id/register_first_name"
             android:layout_width="250dp"
+            android:textSize="22sp"
             android:layout_height="wrap_content"
             android:layout_below="@id/register_email"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/textColorPrimary"
-            android:textColorHint="@color/textColorPrimary"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
+            android:theme="@style/AccentControlTheme"
             android:hint="@string/first_name" />
 
         <EditText
             android:id="@+id/register_last_name"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
+            android:textSize="22sp"
             android:layout_below="@id/register_first_name"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/textColorPrimary"
-            android:textColorHint="@color/textColorPrimary"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
+            android:theme="@style/AccentControlTheme"
             android:hint="@string/last_name" />
 
         <EditText
             android:id="@+id/register_phone"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
+            android:textSize="22sp"
             android:layout_below="@id/register_last_name"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/textColorPrimary"
-            android:textColorHint="@color/textColorPrimary"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
             android:hint="@string/phone"
+            android:theme="@style/AccentControlTheme"
             android:inputType="phone"/>
 
         <EditText
             android:id="@+id/register_password"
             android:layout_width="250dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             android:layout_height="wrap_content"
+            android:textSize="22sp"
             android:layout_below="@id/register_phone"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/textColorPrimary"
-            android:textColorHint="@color/textColorPrimary"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
             android:hint="@string/password"
+            android:theme="@style/AccentControlTheme"
             android:inputType="textPassword"/>
 
         <EditText
             android:id="@+id/register_password_repeat"
             android:layout_width="250dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             android:layout_height="wrap_content"
+            android:textSize="22sp"
             android:layout_below="@id/register_password"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/textColorPrimary"
-            android:textColorHint="@color/textColorPrimary"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
             android:hint="@string/repeat_password"
+            android:theme="@style/AccentControlTheme"
             android:inputType="textPassword"/>
 
 
         <Button
             android:id="@+id/register_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
             android:text="@string/register"
             android:layout_below="@id/register_password_repeat"
-            android:paddingHorizontal="40dp"
-            android:paddingVertical="5dp"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:background="@color/colorAccent"
-            android:textColor="@color/textColorPrimary" />
-    </RelativeLayout>
-</ScrollView>
+            android:letterSpacing="0.05"
+            android:background="@drawable/button_accent_background"
+            android:textColor="@color/colorAccent" />
+
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/dog_icon" />
+
+</RelativeLayout>
+
 

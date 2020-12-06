@@ -3,6 +3,7 @@ package com.pbl.animals.ui.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -45,7 +47,7 @@ public class RegisterActivity extends AppCompatActivity implements Validator.Val
     AuthenticationService authService;
 
     private ImageView userImage;
-    private Button addImageButton;
+    private RelativeLayout addImage;
 
     @Email
     @NotEmpty
@@ -76,7 +78,7 @@ public class RegisterActivity extends AppCompatActivity implements Validator.Val
         authService = AuthenticationService.getAuthenticationService(this);
 
         userImage = findViewById(R.id.register_image);
-        addImageButton = findViewById(R.id.register_image_button);
+        addImage = findViewById(R.id.register_image_button);
         registerEmail = findViewById(R.id.register_email);
         registerFirstName = findViewById(R.id.register_first_name);
         registerLastName = findViewById(R.id.register_last_name);
@@ -92,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity implements Validator.Val
             validator.validate();
         });
 
-        addImageButton.setOnClickListener((View view) -> {
+        addImage.setOnClickListener((View view) -> {
             Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if (pictureIntent.resolveActivity(getPackageManager()) != null) {
                 File photoFile;
@@ -118,6 +120,7 @@ public class RegisterActivity extends AppCompatActivity implements Validator.Val
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            userImage.setBackgroundColor(Color.BLACK);
             userImage.setImageBitmap(ImageHelper.getScaledBitmap(ImageHelper.DpToPx(200, this)));
         }
     }
@@ -186,8 +189,11 @@ public class RegisterActivity extends AppCompatActivity implements Validator.Val
 
     @Override
     protected void onDestroy() {
-        ImageHelper.currentFile.delete();
-        ImageHelper.currentFile = null;
+        if (ImageHelper.currentFile != null) {
+            ImageHelper.currentFile.delete();
+            ImageHelper.currentFile = null;
+        }
+
         super.onDestroy();
     }
 }
