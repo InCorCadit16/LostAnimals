@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\source\\repos\\LostAnimals\\LostAnimalsAPI\\LostAnimalsAPI\\LostAnimalsAPI.csproj": {}
+    "C:\\Users\\Strelet\\Desktop\\coding\\LostAnimals\\LostAnimalsAPI\\LostAnimalsAPI\\LostAnimalsAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\source\\repos\\LostAnimals\\LostAnimalsAPI\\LostAnimalsAPI\\LostAnimalsAPI.csproj": {
+    "C:\\Users\\Strelet\\Desktop\\coding\\LostAnimals\\LostAnimalsAPI\\LostAnimalsAPI\\LostAnimalsAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\LostAnimals\\LostAnimalsAPI\\LostAnimalsAPI\\LostAnimalsAPI.csproj",
+        "projectUniqueName": "C:\\Users\\Strelet\\Desktop\\coding\\LostAnimals\\LostAnimalsAPI\\LostAnimalsAPI\\LostAnimalsAPI.csproj",
         "projectName": "LostAnimalsAPI",
-        "projectPath": "C:\\Users\\Admin\\source\\repos\\LostAnimals\\LostAnimalsAPI\\LostAnimalsAPI\\LostAnimalsAPI.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\source\\repos\\LostAnimals\\LostAnimalsAPI\\LostAnimalsAPI\\obj\\",
+        "projectPath": "C:\\Users\\Strelet\\Desktop\\coding\\LostAnimals\\LostAnimalsAPI\\LostAnimalsAPI\\LostAnimalsAPI.csproj",
+        "packagesPath": "C:\\Users\\Strelet\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Strelet\\Desktop\\coding\\LostAnimals\\LostAnimalsAPI\\LostAnimalsAPI\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Strelet\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,6 +29,7 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -37,6 +41,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
@@ -99,7 +104,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

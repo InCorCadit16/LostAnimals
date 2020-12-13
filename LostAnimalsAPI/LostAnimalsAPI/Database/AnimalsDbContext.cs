@@ -38,5 +38,8 @@ namespace LostAnimalsAPI.Database
         public DbSet<BreedLookup> Breeds { get; set; }
 
         public DbSet<Comment> Comments { get; set; }
-    }
+
+        public DbSet<Shelter> Shelters { get; set; }
+
+     }
 }
