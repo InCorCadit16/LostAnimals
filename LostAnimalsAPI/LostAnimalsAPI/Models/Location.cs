@@ -12,5 +12,8 @@ namespace LostAnimalsAPI.Models
 
         public long? CommentId { get; set; }
         public Comment Comment { get; set; }
-    }
+
+        public long? ShelterId { get; set; }
+        public Shelter Shelter { get; set; }
+     }
 }
