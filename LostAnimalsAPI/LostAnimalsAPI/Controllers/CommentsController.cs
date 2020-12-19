@@ -67,6 +67,14 @@ namespace LostAnimalsAPI.Controllers
 
             return NoContent();
         }
+        
+        [AllowAnonymous]
+        [HttpGet("post/{id}")]
+        public async Task<IActionResult> GetCommentByPostId([FromRoute] int id)
+        {
+            var tmpIdPost = await _ctx.Posts.Where(c => c.Id == id).FirstOrDefaultAsync();
+            return Ok(tmpIdPost.Comments);
+        }
 
     }
 }
