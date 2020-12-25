@@ -1,5 +1,6 @@
 package com.pbl.animals.ui.activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -51,6 +52,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         authService = AuthenticationService.getAuthenticationService(this);
         postService = PostService.getPostService(this);
+
+        if (authService.user == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            this.finish();
+            startActivity(intent);
+
+            return;
+        }
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);

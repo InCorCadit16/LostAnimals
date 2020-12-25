@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/register_background"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="new post"
+        android:textAllCaps="true"
+        android:textColor="#e2d9c9"
+        android:textStyle="bold"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/kristen_itc"
+        android:textSize="22sp" />
+
+    <RelativeLayout
+        android:layout_width="100dp"
+        android:layout_height="120dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/image_button">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:background="@color/colorPrimary"/>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:rotation="45"
+            android:background="@drawable/pick_image" />
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="100dp"
+            android:layout_height="120dp"/>
+
+    </RelativeLayout>
+
+    <Spinner
+        android:id="@+id/species_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/title"
+        android:autofillHints="Species" />
+
+    <Spinner
+        android:id="@+id/breed_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/species_spinner"
+        android:autofillHints="Breed" />
+
+    <Spinner
+        android:id="@+id/color_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/breed_spinner"
+        android:autofillHints="Color" />
+
+    <Spinner
+        android:id="@+id/size_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/color_spinner"
+        android:autofillHints="Color" />
+
+    <Spinner
+        android:id="@+id/type_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/size_spinner"
+        android:autofillHints="Color" />
+
+
+    <LinearLayout
+        android:id="@+id/details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/type_spinner"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:paddingHorizontal="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Details"
+            android:textAllCaps="true"
+            android:textColor="#e2d9c9"
+            android:textStyle="bold"
+            android:fontFamily="@font/kristen_itc"
+            android:textSize="22sp" />
+
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/WhiteControlTheme"
+            android:textColor="#fff"
+            android:textColorHint="#fff"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/kristen_itc"
+            android:hint="Detailed description..."/>
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/location"
+            android:fontFamily="@font/kristen_itc"
+            android:layout_marginTop="10dp"
+            android:textColor="#fff"/>
+
+        <Button
+            android:id="@+id/button_location"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:paddingHorizontal="8dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/button_accent_background"
+            android:text="choose location" />
+
+
+        <TextView
+            android:id="@+id/lost_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loose_time"
+            android:fontFamily="@font/kristen_itc"
+            android:layout_marginTop="10dp"
+            android:textColor="#fff"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp">
+
+            <Button
+                android:id="@+id/button_lost_time"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:paddingHorizontal="8dp"
+                android:background="@drawable/button_accent_background"
+                android:text="choose loose time" />
+
+            <CheckBox
+                android:theme="@style/WhiteControlTheme"
+                android:id="@+id/right_now_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/button_lost_time"
+                android:fontFamily="@font/kristen_itc"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:textColor="#fff"
+                android:buttonTint="@color/colorPrimary"
+                android:text="Right now"
+                />
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/create_post"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="@drawable/button_accent_background"
+        android:paddingHorizontal="8dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/details"
+        android:layout_marginTop="40dp"
+        android:text="create post"/>
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/dog_icon" />
+</RelativeLayout>
