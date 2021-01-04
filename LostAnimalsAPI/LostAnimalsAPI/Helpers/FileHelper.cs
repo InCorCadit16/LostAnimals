@@ -16,7 +16,6 @@ namespace LostAnimalsAPI.Helpers
             public const string Format = ".jpg";
 
             public const string UserDefaultImage = "assets/images/default/user.jpg";
-            public const string PostDefaultImage = "assets/images/default/post.jpg";
         }
 
         public async Task<byte[]> LoadFileAsync(long id, bool forPost = true, bool fullSize = true)
@@ -36,8 +35,13 @@ namespace LostAnimalsAPI.Helpers
                 return await File.ReadAllBytesAsync(path.ToString());
             } else
             {
-                string defaultPath = forPost ? FilePathConsts.PostDefaultImage : FilePathConsts.UserDefaultImage;
-                return await File.ReadAllBytesAsync(defaultPath);
+                if (forPost)
+                {
+                    return null;
+                } else
+                {
+                    return await File.ReadAllBytesAsync(FilePathConsts.UserDefaultImage);
+                }
             }
         }
 

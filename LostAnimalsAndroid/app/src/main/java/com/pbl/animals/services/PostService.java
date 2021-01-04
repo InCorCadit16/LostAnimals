@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.pbl.animals.models.Post;
 import com.pbl.animals.models.User;
+import com.pbl.animals.models.contracts.requests.CreatePostRequest;
+import com.pbl.animals.models.contracts.requests.UpdatePostRequest;
 
 import java.util.List;
 
@@ -32,7 +34,19 @@ public class PostService {
         api.getPosts(forMap).enqueue(callback);
     }
 
-    public void makePost(Post post, Callback<Void> callback) {
-        api.makePost(post).enqueue(callback);
+    public void createPost(CreatePostRequest createRequest, Callback<Long> callback) {
+        api.createPost(createRequest).enqueue(callback);
+    }
+
+    public void getPostById(long id, Callback<Post> callback) {
+        api.getPostById(id).enqueue(callback);
+    }
+
+    public void deletePost(long id, Callback<Void> callback) {
+        api.deletePost(id).enqueue(callback);
+    }
+
+    public void updatePost(UpdatePostRequest updateRequest, Callback<Void> callback) {
+        api.updatePost(updateRequest).enqueue(callback);
     }
 }

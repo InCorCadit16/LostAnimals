@@ -1,14 +1,10 @@
 package com.pbl.animals.ui.fragments;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,12 +18,16 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.pbl.animals.R;
 import com.pbl.animals.models.Post;
 import com.pbl.animals.services.PostService;
+import com.pbl.animals.ui.activities.CreatePostActivity;
+import com.pbl.animals.ui.activities.PostActivity;
 
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -37,6 +37,7 @@ import retrofit2.Response;
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     private PostService postService;
     private ViewGroup container;
+    private FloatingActionButton actionButton;
 
     @Nullable
     @Override
@@ -48,6 +49,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
 
         postService = PostService.getPostService(getContext());
+
+        actionButton = v.findViewById(R.id.new_post);
+
+        actionButton.setOnClickListener((View view) -> {
+            Intent i = new Intent(getContext(), CreatePostActivity.class);
+            startActivity(i);
+        });
 
         return v;
     }
@@ -61,14 +69,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    List<Marker> markers = new ArrayList<>();
                     for (Post post: response.body()) {
                         int icon_id = getIconId(post);
                         BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(icon_id);
-                        googleMap.addMarker(
+                        markers.add(googleMap.addMarker(
                                 new MarkerOptions()
                                 .icon(icon)
-                                .position(new LatLng(post.location.latitude, post.location.longitude)));
+                                .position(new LatLng(post.location.latitude, post.location.longitude))));
                     }
+
+                    googleMap.setOnMarkerClickListener((Marker marker) -> {
+                        int position = markers.indexOf(marker);
+                        Intent intent = new Intent(getActivity(), PostActivity.class);
+                        intent.putExtra(PostActivity.POST_ID, response.body().get(position).id);
+                        startActivity(intent);
+                        return true;
+                    });
                 } else {
                     Toast.makeText(getContext(), response.message(), Toast.LENGTH_LONG).show();
                 }
@@ -79,9 +96,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-
-
-
     }
 
     private int getIconId(Post post) {

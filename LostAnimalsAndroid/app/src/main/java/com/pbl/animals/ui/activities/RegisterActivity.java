@@ -155,7 +155,9 @@ public class RegisterActivity extends AppCompatActivity implements Validator.Val
                         authService.user = response.body().user;
                         authService.saveToken(RegisterActivity.this);
                         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                        RegisterActivity.this.finish();
                         startActivity(intent);
+
                     } else {
                         for (IdentityError error: response.body().result.errors) {
                             Toast.makeText(RegisterActivity.this, error.description, Toast.LENGTH_LONG).show();

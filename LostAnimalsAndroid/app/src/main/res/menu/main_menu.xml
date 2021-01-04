@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group
-        android:checkableBehavior="single">
+    <group>
         <item
             android:id="@+id/nav_map"
             android:title="@string/map"/>
@@ -14,5 +13,17 @@
         <item
             android:id="@+id/nav_shelters"
             android:title="@string/list_of_shelters"/>
+    </group>
+
+    <group>
+        <item
+            android:id="@+id/nav_profile"
+            android:title="Profile"/>
+        <item
+            android:id="@+id/nav_my_posts"
+            android:title="My Posts"/>
+        <item
+            android:id="@+id/nav_log_out"
+            android:title="Logout"/>
     </group>
 </menu>

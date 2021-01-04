@@ -1,10 +1,7 @@
 package com.pbl.animals.ui.activities;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,15 +10,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.navigation.NavigationView;
 import com.pbl.animals.R;
 import com.pbl.animals.models.Post;
+import com.pbl.animals.models.User;
 import com.pbl.animals.services.AuthenticationService;
 import com.pbl.animals.services.PostService;
 import com.pbl.animals.ui.fragments.MapFragment;
@@ -33,9 +29,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AuthenticationActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private AuthenticationService authService;
     private PostService postService;
 
     private DrawerLayout drawerLayout;
@@ -49,22 +44,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        authService = AuthenticationService.getAuthenticationService(this);
         postService = PostService.getPostService(this);
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
         userName = navigationView.getHeaderView(0).findViewById(R.id.user_name);
         userIcon = navigationView.getHeaderView(0).findViewById(R.id.user_icon);
-        userName.setText(authService.user.getFullName());
 
+        if (authService.user == null) {
+            tryLoadUser();
+        } else {
+            userName.setText(authService.user.getFullName());
+            userIcon.setImageBitmap(authService.user.getImage());
+        }
 
-        Bitmap bitmap = BitmapFactory.decodeByteArray(authService.user.imageSource,
-                                                0,
-                                                       authService.user.imageSource.length);
-        userIcon.setImageBitmap(bitmap);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -74,6 +68,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         navigateToFragment(new MapFragment());
+    }
+
+    @Override
+    protected void tryLoadUser() {
+        String token = authService.retrieveToken(this);
+        if (token != null) {
+            authService.getUser(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    if (response.isSuccessful()) {
+                        authService.user = response.body();
+                        userName.setText(authService.user.getFullName());
+                        userIcon.setImageBitmap(authService.user.getImage());
+                    } else {
+                        goToLogin();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                    Log.e("LOGIN", t.getMessage());
+                }
+            });
+        }
     }
 
     @Override
@@ -119,16 +137,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_shelters:
                 break;
-        }
-
-        item.setChecked(true);
-        drawerLayout.close();
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
             case R.id.nav_profile:
                 break;
             case R.id.nav_my_posts:
@@ -137,6 +145,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
 
+        item.setChecked(true);
+        drawerLayout.close();
         return true;
     }
 
@@ -144,5 +154,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_container, fragment)
                 .commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Fragment activeFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
+
+        try {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.main_container, activeFragment.getClass().newInstance())
+                    .commit();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
     }
 }

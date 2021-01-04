@@ -10,18 +10,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LostAnimalsAPI.Controllers
 {
-    [Route("api/comment")]
+    [Route("api/[controller]")]
     [ApiController]
     public class CommentsController : BaseController
     {
         private AnimalsDbContext _ctx;
+        private IFileHelper _fileHelper;
 
-        public CommentsController(AnimalsDbContext ctx)
+        public CommentsController(
+            AnimalsDbContext ctx,
+            IFileHelper fileHelper)
         {
             _ctx = ctx;
+            _fileHelper = fileHelper;
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetComments()
         {
@@ -35,13 +38,29 @@ namespace LostAnimalsAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCommentById([FromRoute] int id)
+        public async Task<IActionResult> GetCommentById([FromRoute] long id)
         {
             var comment = await _ctx.Comments.FirstOrDefaultAsync(c => c.Id == id);
             return Ok(comment);
         }
 
-        [AllowAnonymous]
+        [HttpGet("post/{postId}")]
+        public async Task<IActionResult> GetCommentByPostId(long postId)
+        {
+            var comments = await _ctx.Comments
+                .Where(c => c.PostId == postId)
+                .Include(c => c.Location)
+                .Include(c => c.Author)
+                .ToListAsync();
+
+            foreach (var comment in comments)
+            {
+                comment.Author.ImageSource = await _fileHelper.LoadFileAsync(comment.Author.Id, false, false);
+            }
+            return Ok(comments);
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> AddComment([FromBody] Comment comment)
         {
@@ -51,7 +70,7 @@ namespace LostAnimalsAPI.Controllers
             return Ok();
         }
 
-        [AllowAnonymous]
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateComment([FromRoute] int id, [FromBody] Comment comment)
         {
@@ -59,7 +78,6 @@ namespace LostAnimalsAPI.Controllers
             item.Author = comment.Author;
             item.Content = comment.Content;
             item.Location = comment.Location;
-            item.ImageResource = comment.ImageResource;
 
             _ctx.Comments.Update(item);
 

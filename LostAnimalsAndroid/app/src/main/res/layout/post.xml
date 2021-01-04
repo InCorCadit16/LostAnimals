@@ -3,42 +3,62 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:layout_margin="5dp"
+    android:background="@drawable/post_background">
 
-    <TextView
-        android:id="@+id/author_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#000"
-        android:textSize="22sp"
-        android:layout_marginBottom="10dp"/>
-
-
-    <TextView
-        android:id="@+id/post_species"
+    <RelativeLayout
+        android:id="@+id/general_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#000"
-        android:textSize="18sp"
-        android:layout_below="@id/author_name"/>
+        android:layout_marginBottom="5dp">
 
-    <TextView
-        android:id="@+id/post_color"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/post_species"
-        android:textColor="#000"
-        android:text="Color:"
-        android:textSize="18sp"
-        android:layout_marginBottom="10dp"/>
+        <TextView
+            android:id="@+id/author_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="22sp"
+            android:text="Alex Mayson"
+            android:layout_marginBottom="10dp"/>
+
+
+        <TextView
+            android:id="@+id/post_species"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:text="Dog, Corgi"
+            android:layout_below="@id/author_name"/>
+
+        <TextView
+            android:id="@+id/post_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/post_species"
+            android:textColor="#000"
+            android:text="Ginger"
+            android:textSize="18sp"
+            android:layout_marginBottom="5dp"/>
+
+
+        <ImageView
+            android:id="@+id/post_image"
+            android:background="@color/colorAccent"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/post_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/post_color"
+        android:layout_below="@id/general_info"
         android:textColor="#000"
         android:layout_marginBottom="10dp"
+        android:text="Help me, I've lost my dog!"
         />
 
     <TextView
@@ -46,8 +66,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#000"
+        android:layout_marginBottom="5dp"
         android:layout_below="@id/post_content"
-        android:text="Lost ago (on )"/>
+        android:text="Lost on Dec 02, at 12:55"/>
 
     <LinearLayout
         android:id="@+id/post_buttons"
@@ -63,11 +84,13 @@
             <ImageButton
                 android:id="@+id/map_button"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
-                android:background="#fff"
+                android:layout_height="50dp"
+                android:paddingVertical="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/button_background"
                 android:layout_centerInParent="true"
+                android:scaleType="fitCenter"
                 android:src="@drawable/map"/>
 
         </RelativeLayout>
@@ -80,30 +103,14 @@
             <ImageButton
                 android:id="@+id/comment_button"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#fff"
-                android:padding="10dp"
+                android:layout_height="50dp"
+                android:paddingVertical="5dp"
+                android:background="@drawable/button_background"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/map"
-                android:text="Leave Comment"
-                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <ImageButton
-                android:id="@+id/view_comments_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:padding="10dp"
-                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+                android:scaleType="fitCenter"
                 android:src="@drawable/comments"
-                android:background="#fff"
                 />
 
         </RelativeLayout>
