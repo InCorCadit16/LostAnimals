@@ -96,9 +96,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-
-
-
     }
 
     private int getIconId(Post post) {

@@ -1,43 +1,51 @@
 package com.pbl.animals.ui.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pbl.animals.R;
 import com.pbl.animals.models.Comment;
 import com.pbl.animals.models.Post;
+import com.pbl.animals.services.AuthenticationService;
 import com.pbl.animals.services.CommentService;
 import com.pbl.animals.services.PostService;
-import com.pbl.animals.ui.fragments.PostsListFragment;
 import com.pbl.animals.utils.ImageHelper;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PostActivity extends AppCompatActivity {
+public class PostActivity extends AuthenticationActivity {
     public static final String POST_ID = "postId";
 
     private PostService postService;
     private CommentService commentService;
+    private AuthenticationService authService;
 
     private Post post;
     private Comment[] comments;
@@ -52,9 +60,10 @@ public class PostActivity extends AppCompatActivity {
     private EditText postSize;
     private TextView postContent;
     private ImageView postImage;
+    private Button commentButton;
 
     private RecyclerView commentsRecycler;
-
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,8 +81,12 @@ public class PostActivity extends AppCompatActivity {
         postImage = findViewById(R.id.post_image);
         commentsRecycler = findViewById(R.id.comment_recycler);
 
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         postService = PostService.getPostService(this);
         commentService = CommentService.getCommentService(this);
+        authService = AuthenticationService.getAuthenticationService(this);
         long postId = getIntent().getLongExtra(POST_ID, -1);
         loadPost(postId);
         loadComments(postId);
@@ -104,6 +117,11 @@ public class PostActivity extends AppCompatActivity {
                         postImage.setImageBitmap(ImageHelper.getScaledBitmap(bitmap, ImageHelper.DpToPx(150, PostActivity.this)));
                     }
 
+                    if (post.author.id == authService.user.id) {
+                        commentButton.setVisibility(View.GONE);
+                    }
+
+                    onCreateOptionsMenu(toolbar.getMenu());
                 } else {
                     Toast.makeText(PostActivity.this, R.string.request_error, Toast.LENGTH_LONG).show();
                 }
@@ -123,7 +141,7 @@ public class PostActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     comments = response.body();
                     commentsRecycler.setLayoutManager(new LinearLayoutManager(PostActivity.this));
-                    commentsRecycler.setAdapter(new CommentAdapter(List.of(comments)));
+                    commentsRecycler.setAdapter(new CommentAdapter(Stream.of(comments).collect(Collectors.toList())));
                 } else {
                     Toast.makeText(PostActivity.this, R.string.request_error, Toast.LENGTH_LONG).show();
                 }
@@ -134,6 +152,72 @@ public class PostActivity extends AppCompatActivity {
                 Toast.makeText(PostActivity.this, R.string.request_error, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (post != null) {
+            MenuInflater inflater = getMenuInflater();
+            if (post.author.id == authService.user.id) {
+                inflater.inflate(R.menu.user_post_menu, menu);
+            } else {
+                inflater.inflate(R.menu.post_menu, menu);
+            }
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.map_view:
+
+            case R.id.delete_post:
+                AlertDialog dialog = new AlertDialog.Builder(this)
+                        .setMessage("Are you sure that you want to delete this post? This action is irreversible.")
+                        .setPositiveButton("OK", (DialogInterface dialogInterface, int i) -> deletePost())
+                        .setNegativeButton("CANCEL", null)
+                        .create();
+
+                dialog.show();
+                break;
+            case R.id.edit_post:
+                Intent i = new Intent(PostActivity.this, EditPostActivity.class);
+                i.putExtra(PostActivity.POST_ID, post.id);
+                startActivity(i);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    private void deletePost() {
+        postService.deletePost(post.id, new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(PostActivity.this, "Post successfully deleted", Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(PostActivity.this, MainActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    PostActivity.this.finish();
+                    startActivity(i);
+                } else {
+                    Toast.makeText(PostActivity.this, "Failed to delete post", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(PostActivity.this, R.string.request_error, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        recreate();
     }
 
     class CommentAdapter extends RecyclerView.Adapter<CommentHolder> {

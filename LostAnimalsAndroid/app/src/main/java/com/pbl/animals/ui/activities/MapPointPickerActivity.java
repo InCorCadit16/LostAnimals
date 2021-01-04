@@ -5,17 +5,15 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.pbl.animals.R;
 
-public class MapPointPickerActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
+public class MapPointPickerActivity extends AuthenticationActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
     public static final String Longitude = "Lng";
     public static final String Latitude = "Lat";
 

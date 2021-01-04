@@ -58,15 +58,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CreatePostActivity extends AppCompatActivity implements Validator.ValidationListener {
+public class CreatePostActivity extends AuthenticationActivity implements Validator.ValidationListener {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
-    public static final int REQUEST_MAP_POINT = 2;
+    private static final int REQUEST_MAP_POINT = 2;
 
-    private LookupService lookupService;
-    private PostService postService;
-    private CreatePostRequest createPost;
+    protected LookupService lookupService;
+    protected PostService postService;
+    protected LookupsResponse lookups;
+    protected CreatePostRequest createPost;
 
-    private Calendar lostTimeState;
+    protected Calendar lostTimeState;
 
     Spinner speciesSpinner;
 
@@ -137,10 +138,12 @@ public class CreatePostActivity extends AppCompatActivity implements Validator.V
         rightNowTime.setOnCheckedChangeListener((CompoundButton compoundButton, boolean b) -> {
             Date date = new Date();
             if (b) {
+                createPost.postTime = date;
                 createPost.lostTime = date;
                 SimpleDateFormat format = new SimpleDateFormat("hh:mm, MMM d");
                 lostTime.setText(getString(R.string.loose_time_filled, format.format(date)));
             } else {
+                createPost.postTime = null;
                 createPost.lostTime = null;
                 lostTime.setText(getString(R.string.loose_time));
             }
@@ -181,7 +184,8 @@ public class CreatePostActivity extends AppCompatActivity implements Validator.V
             @Override
             public void onResponse(Call<LookupsResponse> call, Response<LookupsResponse> response) {
                 if (response.isSuccessful()) {
-                    createSpinners(response.body());
+                    lookups = response.body();
+                    createSpinners();
                 } else {
                     Toast.makeText(CreatePostActivity.this, "Failed to load lookups", Toast.LENGTH_LONG).show();
                 }
@@ -194,13 +198,13 @@ public class CreatePostActivity extends AppCompatActivity implements Validator.V
         });
     }
 
-    private void createSpinners(LookupsResponse response) {
-        String[] names = Stream.of(response.species).map(s -> s.name).toArray(String[]::new);
-        createPost.species = response.species[0];
+    private void createSpinners() {
+        String[] names = Stream.of(lookups.species).map(s -> s.name).toArray(String[]::new);
+        createPost.species = lookups.species[0];
         setupSpinner(names, speciesSpinner, new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                createPost.species = Stream.of(response.species)
+                createPost.species = Stream.of(lookups.species)
                         .filter(s -> s.name.equals(adapterView.getSelectedItem()))
                         .findFirst()
                         .get();
@@ -210,6 +214,8 @@ public class CreatePostActivity extends AppCompatActivity implements Validator.V
                 adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
                 breedSpinner.setAdapter(adapter);
+                breedSpinner.setSelection(0);
+                createPost.breed = createPost.species.breeds.get(0);
             }
 
             @Override
@@ -218,8 +224,8 @@ public class CreatePostActivity extends AppCompatActivity implements Validator.V
             }
         });
 
-        names = Stream.of(response.species[0].breeds.toArray(new BreedLookup[]{})).map(b -> b.name).toArray(String[]::new);
-        createPost.breed = response.species[0].breeds.get(0);
+        names = Stream.of(lookups.species[0].breeds.toArray(new BreedLookup[]{})).map(b -> b.name).toArray(String[]::new);
+        createPost.breed = lookups.species[0].breeds.get(0);
         setupSpinner(names, breedSpinner, new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -235,12 +241,12 @@ public class CreatePostActivity extends AppCompatActivity implements Validator.V
             }
         });
 
-        names = Stream.of(response.colors).map(c -> c.name).toArray(String[]::new);
-        createPost.color = response.colors[0];
+        names = Stream.of(lookups.colors).map(c -> c.name).toArray(String[]::new);
+        createPost.color = lookups.colors[0];
         setupSpinner(names, colorSpinner, new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                createPost.color = Stream.of(response.colors)
+                createPost.color = Stream.of(lookups.colors)
                         .filter(c -> c.name.equals(adapterView.getSelectedItem()))
                         .findFirst()
                         .get();
@@ -284,7 +290,7 @@ public class CreatePostActivity extends AppCompatActivity implements Validator.V
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 createPost.postType = Stream.of(PostType.values())
-                        .filter(t -> t.name().equals((String) (adapterView.getSelectedItem())))
+                        .filter(t -> t.name().equals(((String) adapterView.getSelectedItem()).replaceAll(" ","")))
                         .findFirst()
                         .get();
             }
@@ -370,6 +376,9 @@ public class CreatePostActivity extends AppCompatActivity implements Validator.V
 
     @Override
     public void onValidationSucceeded() {
+        if (createPost.postTime == null) {
+            createPost.postTime = new Date();
+        }
 
         postService.createPost(createPost, new Callback<Long>() {
             @Override

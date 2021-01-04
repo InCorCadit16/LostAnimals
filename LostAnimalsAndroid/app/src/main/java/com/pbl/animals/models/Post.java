@@ -25,7 +25,6 @@ public class Post extends ModelBase {
     public Date lostTime;
     public Date postTime;
     public byte[] imageSource;
-    public List<Comment> comments;
 
     public Bitmap getImage() {
         if (imageSource == null) {

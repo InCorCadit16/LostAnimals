@@ -7,6 +7,7 @@ import com.pbl.animals.models.User;
 import com.pbl.animals.models.contracts.requests.CreatePostRequest;
 import com.pbl.animals.models.contracts.requests.LoginRequest;
 import com.pbl.animals.models.contracts.requests.RegistrationRequest;
+import com.pbl.animals.models.contracts.requests.UpdatePostRequest;
 import com.pbl.animals.models.contracts.responses.LoginResponse;
 import com.pbl.animals.models.contracts.responses.LookupsResponse;
 import com.pbl.animals.models.contracts.responses.RegistrationResponse;
@@ -16,8 +17,10 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -50,7 +53,13 @@ interface LostAnimalsApi {
     Call<Post> getPostById(@Path("id") long id);
 
     @POST("post")
-    Call<Long> createPost(@Body() CreatePostRequest post);
+    Call<Long> createPost(@Body() CreatePostRequest request);
+
+    @PUT("post")
+    Call<Void> updatePost(@Body() UpdatePostRequest request);
+
+    @DELETE("post/{id}")
+    Call<Void> deletePost(@Path("id") long id);
 
 
     // Comments

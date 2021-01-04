@@ -42,6 +42,7 @@
         <activity android:name=".ui.activities.RegisterActivity" android:noHistory="true"/>
         <activity android:name=".ui.activities.PostActivity" />
         <activity android:name=".ui.activities.CreatePostActivity" />
+        <activity android:name=".ui.activities.EditPostActivity" />
         <activity android:name=".ui.activities.MapPointPickerActivity" />
 
         <provider
