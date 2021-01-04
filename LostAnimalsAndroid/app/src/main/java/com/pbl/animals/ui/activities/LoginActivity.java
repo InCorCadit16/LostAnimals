@@ -85,7 +85,11 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
                     authService.user = response.body().user;
                     authService.saveToken(LoginActivity.this);
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    LoginActivity.this.finish();
                     startActivity(intent);
+
                 } else {
                     Toast.makeText(LoginActivity.this, R.string.login_error, Toast.LENGTH_LONG).show();
                 }

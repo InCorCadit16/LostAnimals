@@ -13,14 +13,17 @@
         <item name="colorControlHighlight">@color/colorAccent</item>
     </style>
 
-
-
     <style name="AccentControlTheme" parent="Theme.AppCompat.Light.NoActionBar">
-
         <!-- Override default styles -->
         <item name="colorControlNormal">@color/colorPrimary</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
         <item name="colorControlHighlight">@color/colorPrimary</item>
     </style>
 
+    <style name="WhiteControlTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Override default styles -->
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="colorControlActivated">@android:color/white</item>
+        <item name="colorControlHighlight">@android:color/white</item>
+    </style>
 </resources>

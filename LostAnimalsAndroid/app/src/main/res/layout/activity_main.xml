@@ -20,8 +20,7 @@ tools:openDrawer="start">
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
             app:title=" "
-            app:titleTextColor="@color/textColorPrimary"
-            app:menu="@menu/user_menu"/>
+            app:titleTextColor="@color/textColorPrimary"/>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -37,6 +36,8 @@ tools:openDrawer="start">
     android:layout_height="match_parent"
     android:layout_gravity="start"
     android:fitsSystemWindows="true"
+    android:background="@color/colorAccent"
+    app:itemTextColor="#fff"
     app:menu="@menu/main_menu"
     app:headerLayout="@layout/drawer_header"/>
 

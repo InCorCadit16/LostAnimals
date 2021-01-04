@@ -11,12 +11,10 @@ namespace LostAnimalsAPI.Models
     {
         public string Content { get; set; }
         public ApplicationUser Author { get; set; }
+        public long PostId { get; set; }
         public Post Post { get; set; }
         public Location Location { get; set; }
         public DateTime SeenTime { get; set; }
         public DateTime CommentTime { get; set; }
-
-        [NotMapped]
-        public byte[] ImageResource { get; set; }
     }
 }
