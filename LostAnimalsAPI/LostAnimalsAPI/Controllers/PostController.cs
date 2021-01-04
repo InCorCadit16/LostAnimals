@@ -102,7 +102,7 @@ namespace LostAnimalsAPI.Controllers
                 Content = postRequest.Content,
                 ImageSource = postRequest.ImageSource,
                 Location = postRequest.Location,
-                PostTime = DateTime.Now,
+                PostTime = postRequest.PostTime,
                 Author = await _userManager.FindByEmailAsync(_userHelper.Email)
             };
 
@@ -116,6 +116,58 @@ namespace LostAnimalsAPI.Controllers
             }
             
             return Ok(post.Id);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdatePost([FromBody] UpdatePostRequest request)
+        {
+            var post = await _ctx.Posts.Include(p => p.Author)
+                                        .FirstOrDefaultAsync(p => p.Id == request.PostId);
+
+            if (post.Author.Email != _userHelper.Email)
+            {
+                return Forbid();
+            }
+
+            post.Species = await _ctx.Species.FirstAsync(s => s.Id == request.Species.Id);
+            post.Breed = await _ctx.Breeds.FirstAsync(b => b.Id == request.Breed.Id);
+            post.Color = await _ctx.Colors.FirstAsync(s => s.Id == request.Color.Id);
+            post.PostType = request.PostType;
+            post.Size = request.Size;
+            post.Content = request.Content;
+            post.LostTime = request.LostTime;
+            post.Location = request.Location;
+
+            if (request.ImageSource != null)
+            {
+                post.ImageSource = request.ImageSource;
+                _fileHelper.SaveFile(post.Id, post.ImageSource, true);
+            }
+
+            _ctx.Posts.Update(post);
+            await _ctx.SaveChangesAsync();
+
+            return Ok();
+        }
+
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePost([FromRoute] long id)
+        {
+            var post = await _ctx.Posts.Include(p => p.Author)
+                                        .Include(p => p.Location)
+                                        .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (post.Author.Email != _userHelper.Email)
+            {
+                return Forbid();
+            }
+
+            _ctx.Remove(post.Location);
+            _ctx.Remove(post);
+            await _ctx.SaveChangesAsync();
+
+            return Ok();
         }
     }
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import com.pbl.animals.models.Post;
 import com.pbl.animals.models.User;
 import com.pbl.animals.models.contracts.requests.CreatePostRequest;
+import com.pbl.animals.models.contracts.requests.UpdatePostRequest;
 
 import java.util.List;
 
@@ -39,5 +40,13 @@ public class PostService {
 
     public void getPostById(long id, Callback<Post> callback) {
         api.getPostById(id).enqueue(callback);
+    }
+
+    public void deletePost(long id, Callback<Void> callback) {
+        api.deletePost(id).enqueue(callback);
+    }
+
+    public void updatePost(UpdatePostRequest updateRequest, Callback<Void> callback) {
+        api.updatePost(updateRequest).enqueue(callback);
     }
 }

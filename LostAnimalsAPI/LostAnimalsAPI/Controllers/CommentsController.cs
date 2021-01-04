@@ -25,7 +25,6 @@ namespace LostAnimalsAPI.Controllers
             _fileHelper = fileHelper;
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetComments()
         {
@@ -61,7 +60,7 @@ namespace LostAnimalsAPI.Controllers
             return Ok(comments);
         }
 
-        [AllowAnonymous]
+
         [HttpPost]
         public async Task<IActionResult> AddComment([FromBody] Comment comment)
         {
@@ -71,7 +70,7 @@ namespace LostAnimalsAPI.Controllers
             return Ok();
         }
 
-        [AllowAnonymous]
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateComment([FromRoute] int id, [FromBody] Comment comment)
         {
