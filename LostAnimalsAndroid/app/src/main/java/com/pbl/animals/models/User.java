@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 
 public class User {
-    public long Id;
+    public long id;
     public String email;
     public String firstName;
     public String lastName;

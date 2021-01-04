@@ -1,8 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using LostAnimalsAPI.Contracts.Requests;
 using LostAnimalsAPI.Database;
 using LostAnimalsAPI.Helpers.Base;
 using LostAnimalsAPI.Models;
+using LostAnimalsAPI.Models.Auth;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,13 +18,20 @@ namespace LostAnimalsAPI.Controllers
     public class PostController : BaseController
     {
         private AnimalsDbContext _ctx;
+        private UserManager<ApplicationUser> _userManager;
         private IFileHelper _fileHelper;
+        private ICurrentUserHelper _userHelper;
+
         public PostController(
             AnimalsDbContext ctx,
-            IFileHelper fileHelper) 
+            UserManager<ApplicationUser> userManager,
+            IFileHelper fileHelper,
+            ICurrentUserHelper userHelper) 
         {
             _ctx = ctx;
+            _userManager = userManager;
             _fileHelper = fileHelper;
+            _userHelper = userHelper;
         }
         
         [HttpGet]
@@ -63,18 +74,48 @@ namespace LostAnimalsAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPostById([FromRoute] long id)
         {
-            var post = await _ctx.Posts.Where(u => u.Id == id).FirstOrDefaultAsync();
+            var post = await _ctx.Posts
+                .Where(p => p.Id == id)
+                .Include(p => p.Author)
+                .Include(p => p.Breed)
+                .Include(p => p.Color)
+                .Include(p => p.Species)
+                .Include(p => p.Location)
+                .FirstOrDefaultAsync();
+
+            post.ImageSource = await _fileHelper.LoadFileAsync(post.Id);
 
             return Ok(post);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Post post)
+        public async Task<IActionResult> Post([FromBody] CreatePostRequest postRequest)
         {
+            var post = new Post
+            {
+                Species = await _ctx.Species.FirstAsync(s => s.Id == postRequest.Species.Id),
+                Breed = await _ctx.Breeds.FirstAsync(b => b.Id == postRequest.Breed.Id),
+                Color = await _ctx.Colors.FirstAsync(s => s.Id == postRequest.Color.Id),
+                Size = postRequest.Size,
+                PostType = postRequest.PostType,
+                LostTime = postRequest.LostTime,
+                Content = postRequest.Content,
+                ImageSource = postRequest.ImageSource,
+                Location = postRequest.Location,
+                PostTime = DateTime.Now,
+                Author = await _userManager.FindByEmailAsync(_userHelper.Email)
+            };
+
             _ctx.Attach(post);
             _ctx.Posts.Add(post);
             await _ctx.SaveChangesAsync();
-            return Ok();
+
+            if (postRequest.ImageSource != null)
+            {
+                _fileHelper.SaveFile(post.Id, postRequest.ImageSource, true);
+            }
+            
+            return Ok(post.Id);
         }
     }
 }

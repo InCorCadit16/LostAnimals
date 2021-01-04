@@ -28,7 +28,12 @@ public class ImageHelper {
     public static Bitmap getScaledBitmap(float toHeight) {
         Bitmap source = BitmapFactory.decodeFile(currentFile.getAbsolutePath());
         float toWidth = source.getWidth() * toHeight / source.getHeight();
-        return  Bitmap.createScaledBitmap(source, (int) toWidth,(int) toHeight, false);
+        return Bitmap.createScaledBitmap(source, (int) toWidth,(int) toHeight, false);
+    }
+
+    public static Bitmap getScaledBitmap(Bitmap source, float toHeight) {
+        float toWidth = source.getWidth() * toHeight / source.getHeight();
+        return Bitmap.createScaledBitmap(source, (int) toWidth,(int) toHeight, false);
     }
 
     public static byte[] imageToByteArray()  {
