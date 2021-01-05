@@ -29,7 +29,6 @@ namespace LostAnimalsAPI.Controllers
                    .Include(c => c.Name)
                    .Include(c => c.Description)
                    .Include(c => c.Location)
-                   .Include(c => c.ImageResource)
                    .ToListAsync();
 
                return Ok(shelters);     

@@ -79,6 +79,7 @@ public class PostActivity extends AuthenticationActivity {
         postSize = findViewById(R.id.post_size);
         postContent = findViewById(R.id.post_content);
         postImage = findViewById(R.id.post_image);
+        commentButton = findViewById(R.id.comment_button);
         commentsRecycler = findViewById(R.id.comment_recycler);
 
         toolbar = findViewById(R.id.toolbar);
@@ -169,21 +170,26 @@ public class PostActivity extends AuthenticationActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
+        Intent i;
         switch (item.getItemId()) {
             case R.id.map_view:
-
+                i = new Intent(PostActivity.this, MapActivity.class);
+                i.putExtra(PostActivity.POST_ID, post.id);
+                i.putExtra(MapPointPickerActivity.Longitude, post.location.longitude);
+                i.putExtra(MapPointPickerActivity.Latitude, post.location.latitude);
+                startActivity(i);
+                break;
             case R.id.delete_post:
                 AlertDialog dialog = new AlertDialog.Builder(this)
                         .setMessage("Are you sure that you want to delete this post? This action is irreversible.")
-                        .setPositiveButton("OK", (DialogInterface dialogInterface, int i) -> deletePost())
+                        .setPositiveButton("OK", (DialogInterface dialogInterface, int var) -> deletePost())
                         .setNegativeButton("CANCEL", null)
                         .create();
 
                 dialog.show();
                 break;
             case R.id.edit_post:
-                Intent i = new Intent(PostActivity.this, EditPostActivity.class);
+                i = new Intent(PostActivity.this, EditPostActivity.class);
                 i.putExtra(PostActivity.POST_ID, post.id);
                 startActivity(i);
         }
