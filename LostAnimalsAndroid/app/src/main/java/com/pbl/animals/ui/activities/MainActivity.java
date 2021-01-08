@@ -1,5 +1,6 @@
 package com.pbl.animals.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -115,22 +116,7 @@ public class MainActivity extends AuthenticationActivity implements NavigationVi
                 navigateToFragment(new MapFragment());
                 break;
             case R.id.nav_feed:
-                postService.getPosts(false, new Callback<List<Post>>() {
-                    @Override
-                    public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            navigateToFragment(PostsListFragment.createFragment(response.body()));
-                        } else {
-                            Toast.makeText(MainActivity.this, response.message(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Post>> call, Throwable t) {
-                        Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
-
+                navigateToPosts();
                 break;
             case R.id.nav_favorite:
                 navigateToFragment(new PostsListFragment());
@@ -142,12 +128,57 @@ public class MainActivity extends AuthenticationActivity implements NavigationVi
             case R.id.nav_my_posts:
                 break;
             case R.id.nav_log_out:
+                logout();
                 break;
         }
 
         item.setChecked(true);
         drawerLayout.close();
         return true;
+    }
+
+    private void navigateToPosts() {
+        postService.getPosts(false, new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    navigateToFragment(PostsListFragment.createFragment(response.body()));
+                } else {
+                    Toast.makeText(MainActivity.this, response.message(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void logout() {
+        authService.logout(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    authService.user = null;
+                    authService.token = null;
+                    authService.saveToken(MainActivity.this);
+
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    MainActivity.this.finish();
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(MainActivity.this, "Failed to log out", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(MainActivity.this, R.string.request_error, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void navigateToFragment(Fragment fragment) {
