@@ -27,7 +27,6 @@ import retrofit2.http.Query;
 interface LostAnimalsApi {
 
     // Auth methods
-
     @POST("auth/register")
     Call<RegistrationResponse> register(@Body RegistrationRequest request);
 
@@ -37,15 +36,10 @@ interface LostAnimalsApi {
     @POST("auth/logout")
     Call<Void> logout();
 
-    @GET("auth/user")
+    @GET("auth/my")
     Call<User> getUser();
 
-    // Species
-    @GET("species")
-    Call<SpeciesLookup> getSpecies();
-
     // Posts
-
     @GET("post")
     Call<List<Post>> getPosts(@Query("forMap") boolean forMap);
 

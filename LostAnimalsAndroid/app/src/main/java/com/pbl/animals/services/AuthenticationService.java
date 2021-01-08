@@ -51,7 +51,11 @@ public class AuthenticationService {
 
     public void saveToken(Context ctx) {
         SharedPreferences preferences = ctx.getSharedPreferences(ctx.getString(R.string.auth_file_name), Context.MODE_PRIVATE);
-        preferences.edit().putString(ctx.getString(R.string.token_name),token).apply();
+
+        if (token == null)
+            preferences.edit().remove(ctx.getString(R.string.token_name)).apply();
+        else
+            preferences.edit().putString(ctx.getString(R.string.token_name),token).apply();
     }
 
     public String retrieveToken(Context ctx) {
