@@ -23,6 +23,8 @@ import com.pbl.animals.services.AuthenticationService;
 import com.pbl.animals.services.PostService;
 import com.pbl.animals.ui.fragments.MapFragment;
 import com.pbl.animals.ui.fragments.PostsListFragment;
+import com.pbl.animals.ui.fragments.UserProfileFragment;
+import com.pbl.animals.utils.ImageHelper;
 
 import java.util.List;
 
@@ -56,8 +58,7 @@ public class MainActivity extends AuthenticationActivity implements NavigationVi
         if (authService.user == null) {
             tryLoadUser();
         } else {
-            userName.setText(authService.user.getFullName());
-            userIcon.setImageBitmap(authService.user.getImage());
+            setUserData();
         }
 
 
@@ -119,11 +120,11 @@ public class MainActivity extends AuthenticationActivity implements NavigationVi
                 navigateToPosts();
                 break;
             case R.id.nav_favorite:
-                navigateToFragment(new PostsListFragment());
                 break;
             case R.id.nav_shelters:
                 break;
             case R.id.nav_profile:
+                navigateToFragment(new UserProfileFragment());
                 break;
             case R.id.nav_my_posts:
                 break;
@@ -132,7 +133,7 @@ public class MainActivity extends AuthenticationActivity implements NavigationVi
                 break;
         }
 
-        item.setChecked(true);
+        //item.setChecked(true);
         drawerLayout.close();
         return true;
     }
@@ -182,9 +183,18 @@ public class MainActivity extends AuthenticationActivity implements NavigationVi
     }
 
     private void navigateToFragment(Fragment fragment) {
+        setUserData();
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_container, fragment)
                 .commit();
+    }
+
+    private void setUserData() {
+        if (authService.user != null) {
+            userName.setText(authService.user.getFullName());
+            userIcon.setImageBitmap(authService.user.getImage());
+        }
     }
 
     @Override
@@ -201,5 +211,15 @@ public class MainActivity extends AuthenticationActivity implements NavigationVi
         } catch (InstantiationException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (ImageHelper.currentFile != null) {
+            ImageHelper.currentFile.delete();
+            ImageHelper.currentFile = null;
+        }
+
+        super.onDestroy();
     }
 }

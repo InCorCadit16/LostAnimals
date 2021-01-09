@@ -37,6 +37,9 @@ public class ImageHelper {
     }
 
     public static byte[] imageToByteArray()  {
+        if (currentFile == null)
+            return null;
+
         try {
             return FileUtils.readFileToByteArray(currentFile);
         } catch (IOException ioe) {

@@ -1,6 +1,8 @@
 package com.pbl.animals.ui.fragments;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -26,6 +31,7 @@ import com.pbl.animals.models.Post;
 import com.pbl.animals.services.PostService;
 import com.pbl.animals.ui.activities.CreatePostActivity;
 import com.pbl.animals.ui.activities.PostActivity;
+import com.pbl.animals.utils.PermissionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +40,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    private boolean permissionDenied = false;
+
+    private GoogleMap map;
+
     private PostService postService;
     private ViewGroup container;
     private FloatingActionButton actionButton;
@@ -64,6 +75,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         LatLng moldovaLocation = new LatLng(47.023809, 28.832489);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(moldovaLocation,12));
+        map = googleMap;
+        enableMyLocation();
 
         postService.getPosts(true, new Callback<List<Post>>() {
             @Override
@@ -96,6 +109,36 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void enableMyLocation() {
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            if (map != null) {
+                map.setMyLocationEnabled(true);
+            }
+        } else {
+            PermissionUtils.requestPermission((AppCompatActivity) getActivity(), LOCATION_PERMISSION_REQUEST_CODE,
+                    Manifest.permission.ACCESS_FINE_LOCATION, true);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
+            return;
+        }
+
+        if (PermissionUtils.isPermissionGranted(permissions, grantResults, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            // Enable the my location layer if the permission has been granted.
+            enableMyLocation();
+        } else {
+            // Permission was denied. Display an error message
+            // Display the missing permission error dialog when the fragments resume.
+            permissionDenied = true;
+            PermissionUtils.PermissionDeniedDialog
+                    .newInstance(true).show(getChildFragmentManager(), "dialog");
+        }
     }
 
     private int getIconId(Post post) {

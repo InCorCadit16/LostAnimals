@@ -103,6 +103,34 @@ namespace LostAnimalsAPI.Services
                 
         }
 
+        public async Task<ApplicationUser> UpdateUser(string email, UpdateUserRequest request)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            user.FirstName = request.FirstName;
+            user.LastName = request.LastName;
+            user.PhoneNumber = request.PhoneNumber;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+            {
+                if (request.ImageResource != null)
+                {
+                    _fileHelper.SaveFile(user.Id, request.ImageResource);
+                    user.ImageSource = request.ImageResource;
+                } else
+                {
+                    user.ImageSource = await _fileHelper.LoadFileAsync(user.Id, false);
+                }
+                
+                return user;
+            } else
+            {
+                return null;
+            }
+        }
+
 
         private string CreateToken(ApplicationUser user)
         {
