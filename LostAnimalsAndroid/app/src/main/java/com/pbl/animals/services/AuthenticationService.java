@@ -7,6 +7,7 @@ import com.pbl.animals.R;
 import com.pbl.animals.models.User;
 import com.pbl.animals.models.contracts.requests.LoginRequest;
 import com.pbl.animals.models.contracts.requests.RegistrationRequest;
+import com.pbl.animals.models.contracts.requests.UpdateUserRequest;
 import com.pbl.animals.models.contracts.responses.LoginResponse;
 import com.pbl.animals.models.contracts.responses.RegistrationResponse;
 
@@ -48,6 +49,8 @@ public class AuthenticationService {
     public void getUser(Callback<User> callback) {
         api.getUser().enqueue(callback);
     }
+
+    public void updateUser(UpdateUserRequest request, Callback<User> callback) { api.updateUser(request).enqueue(callback); }
 
     public void saveToken(Context ctx) {
         SharedPreferences preferences = ctx.getSharedPreferences(ctx.getString(R.string.auth_file_name), Context.MODE_PRIVATE);

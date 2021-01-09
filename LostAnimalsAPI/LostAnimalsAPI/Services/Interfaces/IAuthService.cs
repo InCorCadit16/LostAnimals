@@ -15,6 +15,7 @@ namespace LostAnimalsAPI.Services.Interfaces
 
         Task LogoutUser();
 
+        Task<ApplicationUser> UpdateUser(string email, UpdateUserRequest request);
 
         Task<ApplicationUser> GetUser(string userEmail);
     }

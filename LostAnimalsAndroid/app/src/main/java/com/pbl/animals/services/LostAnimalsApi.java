@@ -8,6 +8,7 @@ import com.pbl.animals.models.contracts.requests.CreatePostRequest;
 import com.pbl.animals.models.contracts.requests.LoginRequest;
 import com.pbl.animals.models.contracts.requests.RegistrationRequest;
 import com.pbl.animals.models.contracts.requests.UpdatePostRequest;
+import com.pbl.animals.models.contracts.requests.UpdateUserRequest;
 import com.pbl.animals.models.contracts.responses.LoginResponse;
 import com.pbl.animals.models.contracts.responses.LookupsResponse;
 import com.pbl.animals.models.contracts.responses.RegistrationResponse;
@@ -38,6 +39,9 @@ interface LostAnimalsApi {
 
     @GET("auth/my")
     Call<User> getUser();
+
+    @POST("auth/update")
+    Call<User> updateUser(@Body UpdateUserRequest request);
 
     // Posts
     @GET("post")

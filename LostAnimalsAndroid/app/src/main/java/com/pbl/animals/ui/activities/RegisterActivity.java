@@ -42,7 +42,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RegisterActivity extends AppCompatActivity implements Validator.ValidationListener {
+public class    RegisterActivity extends AppCompatActivity implements Validator.ValidationListener {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     AuthenticationService authService;
 

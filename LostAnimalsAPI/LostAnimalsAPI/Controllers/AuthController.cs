@@ -48,7 +48,7 @@ namespace LostAnimalsAPI.Controllers
         }
 
         [HttpGet("my")]
-        public async Task<IActionResult> getUser()
+        public async Task<IActionResult> GetUser()
         {
             var user = await _authService.GetUser(_userHelper.Email);
             return Ok(new {
@@ -61,6 +61,16 @@ namespace LostAnimalsAPI.Controllers
             });
         }
 
+        [HttpPost("update")]
+        public async Task<IActionResult> UpdateUser(UpdateUserRequest request)
+        {
+            var updatedUser = await _authService.UpdateUser(_userHelper.Email, request);
+
+            if (updatedUser != null)
+                return Ok(updatedUser);
+            else
+                return BadRequest();
+        }
 
     }
 }

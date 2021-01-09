@@ -15,15 +15,12 @@ public class User extends ModelBase {
     public String phoneNumber;
     public byte[] imageSource;
 
-    @JsonIgnore
-    public List<Post> posts;
-
     public String getFullName() {
         return lastName == null? firstName : firstName + " " + lastName;
     }
 
     public Bitmap getImage() {
-        if (imageSource != null) {
+        if (imageSource == null) {
             return null;
         }
 
