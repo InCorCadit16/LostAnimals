@@ -24,59 +24,13 @@ namespace LostAnimalsAPI.Infrastructure.Seeding
                     var roleManager = services.GetRequiredService<RoleManager<Role>>();
                     context.Database.Migrate();
 
-                    try
-                    {
-                        await Seed.SeedUsers(context, userManager);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
-
-                    try
-                    {
-                        await Seed.SeedSpecies(context);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
-
-                    try
-                    {
-                        await Seed.SeedBreed(context);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
-
-                    try
-                    {
-                        await Seed.SeedColors(context);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
-
-                    try
-                    {
-                        await Seed.SeedPosts(context);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
-
-                    try
-                    {
-                        await Seed.SeedComments(context);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
+                    await Seed.SeedUsers(context, userManager);
+                    await Seed.SeedSpecies(context);
+                    await Seed.SeedBreed(context);
+                    await Seed.SeedColors(context);
+                    await Seed.SeedPosts(context);
+                    await Seed.SeedComments(context);
+                    await Seed.SeedShelters(context);
                 }
                 catch (Exception ex)
                 {

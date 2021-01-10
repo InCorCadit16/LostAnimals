@@ -9,7 +9,7 @@ using LostAnimalsAPI.Models.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using static LostAnimalsAPI.Helpers.Base.IFileHelper;
 
 namespace LostAnimalsAPI.Controllers
 {
@@ -46,12 +46,12 @@ namespace LostAnimalsAPI.Controllers
                     .Include(p => p.Location)
                     .ToListAsync();
 
-                posts.ForEach(async post => { post.ImageSource = await _fileHelper.LoadFileAsync(post.Id); });
+                posts.ForEach(async post => { post.ImageSource = await _fileHelper.LoadFileAsync(post.Id, ObjectType.Post); });
                 return Ok(posts);
             }
             else
             {
-                await _ctx.Posts.ForEachAsync(async p => { p.ImageSource = await _fileHelper.LoadFileAsync(p.Id, true, false); });
+                await _ctx.Posts.ForEachAsync(async p => { p.ImageSource = await _fileHelper.LoadFileAsync(p.Id, ObjectType.Post, false); });
 
                 var posts = await _ctx.Posts
                     .Include(p => p.Location)
@@ -83,7 +83,7 @@ namespace LostAnimalsAPI.Controllers
                 .Include(p => p.Location)
                 .FirstOrDefaultAsync();
 
-            post.ImageSource = await _fileHelper.LoadFileAsync(post.Id);
+            post.ImageSource = await _fileHelper.LoadFileAsync(post.Id, ObjectType.Post);
 
             return Ok(post);
         }
@@ -112,7 +112,7 @@ namespace LostAnimalsAPI.Controllers
 
             if (postRequest.ImageSource != null)
             {
-                _fileHelper.SaveFile(post.Id, postRequest.ImageSource, true);
+                _fileHelper.SaveFile(post.Id, postRequest.ImageSource, ObjectType.Post);
             }
             
             return Ok(post.Id);
@@ -141,7 +141,7 @@ namespace LostAnimalsAPI.Controllers
             if (request.ImageSource != null)
             {
                 post.ImageSource = request.ImageSource;
-                _fileHelper.SaveFile(post.Id, post.ImageSource, true);
+                _fileHelper.SaveFile(post.Id, post.ImageSource, ObjectType.Post);
             }
 
             _ctx.Posts.Update(post);

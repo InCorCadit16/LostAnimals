@@ -39,7 +39,7 @@ namespace LostAnimalsAPI.Services
         public async Task<ApplicationUser> GetUser(string userEmail)
         {
             var user = await _userManager.FindByEmailAsync(userEmail);
-            user.ImageSource = await _fileHelper.LoadFileAsync(user.Id, false, false);
+            user.ImageSource = await _fileHelper.LoadFileAsync(user.Id, IFileHelper.ObjectType.User, false);
             return user;
         }
 
@@ -53,7 +53,7 @@ namespace LostAnimalsAPI.Services
                 return new LoginResponse { Result = result };
             else
             {
-                user.ImageSource = await _fileHelper.LoadFileAsync(user.Id, false, false);
+                user.ImageSource = await _fileHelper.LoadFileAsync(user.Id, IFileHelper.ObjectType.User, false);
 
                 return new LoginResponse
                 {
@@ -88,9 +88,9 @@ namespace LostAnimalsAPI.Services
             {
                 if (request.ImageSource != null)
                 {
-                    _fileHelper.SaveFile(user.Id, request.ImageSource);
+                    _fileHelper.SaveFile(user.Id, request.ImageSource, IFileHelper.ObjectType.User);
 
-                    user.ImageSource = await _fileHelper.LoadFileAsync(user.Id, false, false);
+                    user.ImageSource = await _fileHelper.LoadFileAsync(user.Id, IFileHelper.ObjectType.User, false);
                 }
 
                 return new RegistrationResponse
@@ -117,11 +117,11 @@ namespace LostAnimalsAPI.Services
             {
                 if (request.ImageResource != null)
                 {
-                    _fileHelper.SaveFile(user.Id, request.ImageResource);
+                    _fileHelper.SaveFile(user.Id, request.ImageResource, IFileHelper.ObjectType.User);
                     user.ImageSource = request.ImageResource;
                 } else
                 {
-                    user.ImageSource = await _fileHelper.LoadFileAsync(user.Id, false);
+                    user.ImageSource = await _fileHelper.LoadFileAsync(user.Id, IFileHelper.ObjectType.User);
                 }
                 
                 return user;

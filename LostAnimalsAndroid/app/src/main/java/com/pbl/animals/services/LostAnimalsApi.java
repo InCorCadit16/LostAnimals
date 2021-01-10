@@ -3,6 +3,7 @@ package com.pbl.animals.services;
 
 import com.pbl.animals.models.Comment;
 import com.pbl.animals.models.Post;
+import com.pbl.animals.models.Shelter;
 import com.pbl.animals.models.User;
 import com.pbl.animals.models.contracts.requests.CreatePostRequest;
 import com.pbl.animals.models.contracts.requests.LoginRequest;
@@ -68,4 +69,11 @@ interface LostAnimalsApi {
     @GET("lookup")
     Call<LookupsResponse> getLookups();
 
+
+    // Shelters
+    @GET("shelter")
+    Call<Shelter[]> getShelters(@Query("forMap") boolean forMap);
+
+    @GET("shelter/{id}")
+    Call<Shelter> getShelterById(@Path("id") long id);
 }
