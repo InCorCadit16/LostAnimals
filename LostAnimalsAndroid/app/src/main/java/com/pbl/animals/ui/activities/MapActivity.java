@@ -1,6 +1,5 @@
 package com.pbl.animals.ui.activities;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -10,17 +9,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.pbl.animals.R;
 import com.pbl.animals.models.Comment;
 import com.pbl.animals.models.Location;
-import com.pbl.animals.models.Post;
 import com.pbl.animals.services.CommentService;
 
 import java.util.ArrayList;
@@ -58,10 +53,20 @@ public class MapActivity extends AuthenticationActivity implements OnMapReadyCal
         LatLng looseLocation = new LatLng(location.latitude, location.longitude);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(looseLocation,14));
 
+        if (postId != -1) {
+            displayPost(googleMap);
+        } else {
+            displayShelter(googleMap);
+        }
+
+    }
+
+    private void displayPost(GoogleMap googleMap) {
         googleMap.addMarker(new MarkerOptions()
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
                 .title("Initial point")
                 .position(new LatLng(location.latitude, location.longitude)));
+
         commentService.getCommentsByPostId(postId, new Callback<Comment[]>() {
             @Override
             public void onResponse(Call<Comment[]> call, Response<Comment[]> response) {
@@ -74,10 +79,6 @@ public class MapActivity extends AuthenticationActivity implements OnMapReadyCal
                         googleMap.addMarker(new MarkerOptions()
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                                 .position(new LatLng(c.location.latitude, c.location.longitude)));
-//                        googleMap.addCircle(new CircleOptions()
-//                                .center(new LatLng(c.location.latitude, c.location.longitude))
-//                                .radius(50)
-//                                .fillColor(Color.RED));
                     });
 
                     googleMap.addPolyline(new PolylineOptions().addAll(points));
@@ -91,5 +92,11 @@ public class MapActivity extends AuthenticationActivity implements OnMapReadyCal
                 Toast.makeText(MapActivity.this, R.string.request_error, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void displayShelter(GoogleMap googleMap) {
+        googleMap.addMarker(new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_shelter))
+                .position(new LatLng(location.latitude, location.longitude)));
     }
 }

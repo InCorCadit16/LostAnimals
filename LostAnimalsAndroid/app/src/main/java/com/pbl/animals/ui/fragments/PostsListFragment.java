@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.pbl.animals.R;
 import com.pbl.animals.models.Post;
+import com.pbl.animals.ui.activities.MapActivity;
+import com.pbl.animals.ui.activities.MapPointPickerActivity;
 import com.pbl.animals.ui.activities.PostActivity;
 import com.pbl.animals.utils.ImageHelper;
 
@@ -37,7 +39,7 @@ public class PostsListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_posts_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_list, container, false);
 
         RecyclerView recyclerView = v.findViewById(R.id.posts_recycler);
 
@@ -106,11 +108,8 @@ public class PostsListFragment extends Fragment {
             lostTime.setText(post.lostTime.toString());
 
             if (post.imageSource != null) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(post.imageSource,
-                        0,
-                        post.imageSource.length);
-
-                postImage.setImageBitmap(ImageHelper.getScaledBitmap(bitmap, ImageHelper.DpToPx(100, getContext())));
+                postImage.setImageBitmap(
+                        ImageHelper.getScaledBitmap(post.getImage(), ImageHelper.DpToPx(100, getContext())));
             } else {
                 postImage.setVisibility(View.INVISIBLE);
             }
@@ -122,7 +121,11 @@ public class PostsListFragment extends Fragment {
             });
 
             mapButton.setOnClickListener((View v) -> {
-
+                Intent i = new Intent(getActivity(), MapActivity.class);
+                i.putExtra(PostActivity.POST_ID, post.id);
+                i.putExtra(MapPointPickerActivity.Longitude, post.location.longitude);
+                i.putExtra(MapPointPickerActivity.Latitude, post.location.latitude);
+                startActivity(i);
             });
 
             commentButton.setOnClickListener((View v) -> {

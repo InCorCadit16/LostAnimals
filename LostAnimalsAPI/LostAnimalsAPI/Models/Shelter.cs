@@ -9,6 +9,6 @@ namespace LostAnimalsAPI.Models
         public Location Location { get; set; }
 
         [NotMapped]
-        public byte[] ImageResource { get; set; }
+        public byte[] ImageSource { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace LostAnimalsAPI.Infrastructure.Seeding
     public class Seed
     {
 
-        public static async Task SeedUsers(AnimalsDbContext context, UserManager<ApplicationUser> userManager) 
+        public static async Task SeedUsers(AnimalsDbContext context, UserManager<ApplicationUser> userManager)
         {
             if (!context.Users.Any())
             {
@@ -110,7 +110,6 @@ namespace LostAnimalsAPI.Infrastructure.Seeding
                 await context.SaveChangesAsync();
             }
         }
-
 
         public static async Task SeedColors(AnimalsDbContext context)
         {
@@ -236,25 +235,33 @@ namespace LostAnimalsAPI.Infrastructure.Seeding
             }
         }
 
-
         public static async Task SeedComments(AnimalsDbContext context)
         {
             if (!context.Comments.Any())
             {
-                var user = await context.Users.FirstAsync(u => u.FirstName == "Alex");
-                var post = await context.Posts.Include(p => p.Comments).Include(p => p.Author).FirstAsync(p => p.Author.Id != user.Id);
+                var post = await context.Posts
+                    .Include(p => p.Comments)
+                    .Include(p => p.Author)
+                    .Include(p => p.Location)
+                    .FirstAsync(p => p.Location.Address == "Stefan cel Mare 194");
+
+                var post2 = await context.Posts
+                    .Include(p => p.Comments)
+                    .Include(p => p.Author)
+                    .Include(p => p.Location)
+                    .FirstAsync(p => p.Location.Address == "University street, 9");
 
                 context.Comments.AddRange(
                     new Comment
                     {
                         Content = "I've seen your dog near the place you've lost it.",
-                        Author = user,
+                        Author = post.Author,
                         Post = post,
                         Location = new Location
                         {
                             Address = "",
-                            Latitude = 47.044224,
-                            Longitude = 28.883282
+                            Latitude = 47.034586,
+                            Longitude = 28.819489
                         },
                         SeenTime = new DateTime(2020, 12, 4, 9, 12, 0),
                         CommentTime = new DateTime(2020, 12, 4, 14, 0, 0),
@@ -262,16 +269,107 @@ namespace LostAnimalsAPI.Infrastructure.Seeding
                     new Comment
                     {
                         Content = "My friend also saw your dog somewhere here.",
-                        Author = user,
+                        Author = post.Author,
                         Post = post,
                         Location = new Location
                         {
                             Address = "",
-                            Latitude = 47.0442245,
-                            Longitude = 28.88329
+                            Latitude = 47.034356,
+                            Longitude = 28.821612
                         },
                         SeenTime = new DateTime(2020, 12, 6, 17, 20, 0),
                         CommentTime = new DateTime(2020, 12, 7, 12, 30, 0),
+                    },
+                    new Comment
+                    {
+                        Content = "I've seen a cat that looks very alike to your today in the evening!! Left a map point.",
+                        Author = post.Author,
+                        Post = post,
+                        Location = new Location
+                        {
+                            Address = "",
+                            Latitude = 47.032276,
+                            Longitude = 28.820895
+                        },
+                        SeenTime = new DateTime(2020, 12, 6, 22, 14, 0),
+                        CommentTime = new DateTime(2020, 12, 6, 23, 17, 0),
+                    },
+                    new Comment
+                    {
+                        Content = "I remember, I've seen a dog of the same breed and color there.",
+                        Author = post2.Author,
+                        Post = post2,
+                        Location = new Location
+                        {
+                            Address = "",
+                            Latitude = 47.044221,
+                            Longitude = 28.88328
+                        },
+                        SeenTime = new DateTime(2020, 11, 22, 16, 10, 0),
+                        CommentTime = new DateTime(2020, 11, 22, 16, 10, 0),
+                    },
+                    new Comment
+                    {
+                        Content = "I found your dog! Please, leave your number in the app, or call me!",
+                        Author = post2.Author,
+                        Post = post2,
+                        Location = new Location
+                        {
+                            Address = "",
+                            Latitude = 47.041125,
+                            Longitude = 28.888168
+                        },
+                        SeenTime = new DateTime(2020, 12, 6, 22, 14, 0),
+                        CommentTime = new DateTime(2020, 12, 6, 23, 17, 0),
+                    }
+                );
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public static async Task SeedShelters(AnimalsDbContext context)
+        {
+            if (!context.Shelters.Any())
+            {
+                await context.Shelters.AddRangeAsync
+                (
+                    new Shelter
+                    {
+                        Name = "Datcha",
+                        Description = @"'Datcha' is an animal shelter dedicated to rescuing homeless, mistreated, injured, 
+and abused animals from the streets. They do not receive any government funding and whatsoever and is run purely on donations.",
+                        Location = new Location
+                        {
+                            Address = "",
+                            Latitude = 47.061931,
+                            Longitude = 28.846133,
+                        }
+                    },
+                    new Shelter
+                    {
+                        Name = "'Live life' Dog Shelter",
+                        Description = @"Natalia Ghetmanet runs the shelter, and it provides a haven for hundreds of dogs, puppies,
+and a small number of cats. The shelter receives no local funding whatsoever and is run purely on donations. At this moment, 
+they help and take care of 250 animals found and brought to the shelter",
+                        Location = new Location
+                        {
+                            Address = "",
+                            Latitude = 47.008145,
+                            Longitude = 28.891884,
+                        }
+                    },
+                    new Shelter
+                    {
+                        Name = "Осторов надежды",
+                        Description = @"This shelter («Островок надежды») is dedicated to helping stray animals to get help from volunteers. 
+It is located in Chebanovka and collects public donations, and the shelter is based only on these donations.",
+                        Location = new Location
+                        {
+                            Address = "",
+                            Latitude = 47.007456,
+                            Longitude = 28.872530,
+                        }
                     }
                 );
 

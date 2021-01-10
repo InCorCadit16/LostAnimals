@@ -31,8 +31,8 @@
 
   <ItemGroup>
     <Folder Include="assets\images\posts\" />
-    <Folder Include="assets\images\users\" />
     <Folder Include="assets\images\default\" />
+    <Folder Include="assets\images\shelters\" />
   </ItemGroup>
 
 

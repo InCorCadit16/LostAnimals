@@ -55,7 +55,7 @@ namespace LostAnimalsAPI.Controllers
 
             foreach (var comment in comments)
             {
-                comment.Author.ImageSource = await _fileHelper.LoadFileAsync(comment.Author.Id, false, false);
+                comment.Author.ImageSource = await _fileHelper.LoadFileAsync(comment.Author.Id, IFileHelper.ObjectType.User, false);
             }
             return Ok(comments);
         }

@@ -18,14 +18,17 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.navigation.NavigationView;
 import com.pbl.animals.R;
 import com.pbl.animals.models.Post;
+import com.pbl.animals.models.Shelter;
 import com.pbl.animals.models.User;
-import com.pbl.animals.services.AuthenticationService;
 import com.pbl.animals.services.PostService;
+import com.pbl.animals.services.ShelterService;
 import com.pbl.animals.ui.fragments.MapFragment;
 import com.pbl.animals.ui.fragments.PostsListFragment;
+import com.pbl.animals.ui.fragments.SheltersListFragment;
 import com.pbl.animals.ui.fragments.UserProfileFragment;
 import com.pbl.animals.utils.ImageHelper;
 
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -35,6 +38,7 @@ import retrofit2.Response;
 public class MainActivity extends AuthenticationActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private PostService postService;
+    private ShelterService shelterService;
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -48,6 +52,7 @@ public class MainActivity extends AuthenticationActivity implements NavigationVi
         setContentView(R.layout.activity_main);
 
         postService = PostService.getPostService(this);
+        shelterService = ShelterService.getShelterService(this);
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -122,6 +127,7 @@ public class MainActivity extends AuthenticationActivity implements NavigationVi
             case R.id.nav_favorite:
                 break;
             case R.id.nav_shelters:
+                navigateToShelters();
                 break;
             case R.id.nav_profile:
                 navigateToFragment(new UserProfileFragment());
@@ -152,6 +158,24 @@ public class MainActivity extends AuthenticationActivity implements NavigationVi
             @Override
             public void onFailure(Call<List<Post>> call, Throwable t) {
                 Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void navigateToShelters() {
+        shelterService.getShelters(false, new Callback<Shelter[]>() {
+            @Override
+            public void onResponse(Call<Shelter[]> call, Response<Shelter[]> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    navigateToFragment(SheltersListFragment.createFragment(Arrays.asList(response.body())));
+                } else {
+                    Toast.makeText(MainActivity.this, response.message(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Shelter[]> call, Throwable t) {
+
             }
         });
     }
@@ -203,14 +227,22 @@ public class MainActivity extends AuthenticationActivity implements NavigationVi
         Fragment activeFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
 
         try {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.main_container, activeFragment.getClass().newInstance())
-                    .commit();
+            Class<? extends Fragment> aClass = activeFragment.getClass();
+            if (SheltersListFragment.class.equals(aClass)) {
+                navigateToShelters();
+            } else if (PostsListFragment.class.equals(aClass)) {
+                navigateToPosts();
+            } else {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_container, activeFragment.getClass().newInstance())
+                        .commit();
+            }
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
