@@ -124,8 +124,6 @@ public class MainActivity extends AuthenticationActivity implements NavigationVi
             case R.id.nav_feed:
                 navigateToPosts();
                 break;
-            case R.id.nav_favorite:
-                break;
             case R.id.nav_shelters:
                 navigateToShelters();
                 break;
@@ -133,6 +131,7 @@ public class MainActivity extends AuthenticationActivity implements NavigationVi
                 navigateToFragment(new UserProfileFragment());
                 break;
             case R.id.nav_my_posts:
+                navigateToMyPosts();
                 break;
             case R.id.nav_log_out:
                 logout();
@@ -146,6 +145,24 @@ public class MainActivity extends AuthenticationActivity implements NavigationVi
 
     private void navigateToPosts() {
         postService.getPosts(false, new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    navigateToFragment(PostsListFragment.createFragment(response.body()));
+                } else {
+                    Toast.makeText(MainActivity.this, response.message(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void navigateToMyPosts() {
+        postService.getMyPosts(new Callback<List<Post>>() {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -231,7 +248,10 @@ public class MainActivity extends AuthenticationActivity implements NavigationVi
             if (SheltersListFragment.class.equals(aClass)) {
                 navigateToShelters();
             } else if (PostsListFragment.class.equals(aClass)) {
-                navigateToPosts();
+                if (((PostsListFragment) activeFragment).posts.stream().allMatch(p -> p.author.id == authService.user.id))
+                    navigateToMyPosts();
+                else
+                    navigateToPosts();
             } else {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_container, activeFragment.getClass().newInstance())

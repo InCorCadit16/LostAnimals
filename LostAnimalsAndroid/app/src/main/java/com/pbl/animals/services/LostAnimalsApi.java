@@ -48,6 +48,9 @@ interface LostAnimalsApi {
     @GET("post")
     Call<List<Post>> getPosts(@Query("forMap") boolean forMap);
 
+    @GET("post/my")
+    Call<List<Post>> getMyPosts();
+
     @GET("post/{id}")
     Call<Post> getPostById(@Path("id") long id);
 

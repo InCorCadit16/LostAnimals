@@ -70,6 +70,22 @@ namespace LostAnimalsAPI.Controllers
             }
         }
 
+        [HttpGet("my")]
+        public async Task<IActionResult> GetMy()
+        {
+            var posts = await _ctx.Posts
+                   .Include(p => p.Breed)
+                   .Include(p => p.Color)
+                   .Include(p => p.Species)
+                   .Include(p => p.Author)
+                   .Include(p => p.Location)
+                   .Where(p => p.Author.Email == _userHelper.Email)
+                   .ToListAsync();
+
+            posts.ForEach(async post => { post.ImageSource = await _fileHelper.LoadFileAsync(post.Id, ObjectType.Post); });
+            return Ok(posts);
+        }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPostById([FromRoute] long id)

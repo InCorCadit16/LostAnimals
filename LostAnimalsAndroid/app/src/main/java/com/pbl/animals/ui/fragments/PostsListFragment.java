@@ -27,7 +27,7 @@ import com.pbl.animals.utils.ImageHelper;
 import java.util.List;
 
 public class PostsListFragment extends Fragment {
-    private List<Post> posts;
+    public List<Post> posts;
 
     public static PostsListFragment createFragment(List<Post> posts) {
         PostsListFragment fragment = new PostsListFragment();

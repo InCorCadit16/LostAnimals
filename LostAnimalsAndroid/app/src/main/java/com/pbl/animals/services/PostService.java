@@ -34,6 +34,10 @@ public class PostService {
         api.getPosts(forMap).enqueue(callback);
     }
 
+    public void getMyPosts(Callback<List<Post>> callback) {
+        api.getMyPosts().enqueue(callback);
+    }
+
     public void createPost(CreatePostRequest createRequest, Callback<Long> callback) {
         api.createPost(createRequest).enqueue(callback);
     }

@@ -8,9 +8,6 @@
             android:id="@+id/nav_feed"
             android:title="@string/all_posts"/>
         <item
-            android:id="@+id/nav_favorite"
-            android:title="@string/favorite_posts"/>
-        <item
             android:id="@+id/nav_shelters"
             android:title="@string/list_of_shelters"/>
     </group>
