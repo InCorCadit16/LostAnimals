@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/register_background"
+    android:padding="10dp">
+
+
+    <EditText
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/WhiteControlTheme"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/kristen_itc"
+        android:hint="Description..."/>
+
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/location"
+        android:fontFamily="@font/kristen_itc"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/content"
+        android:textColor="#fff"/>
+
+    <Button
+        android:id="@+id/button_location"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:paddingHorizontal="8dp"
+        android:layout_below="@id/location"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/button_accent_background"
+        android:text="choose location" />
+
+    <TextView
+        android:id="@+id/seen_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Seen time:"
+        android:layout_below="@id/button_location"
+        android:fontFamily="@font/kristen_itc"
+        android:layout_marginTop="10dp"
+        android:textColor="#fff"/>
+
+    <RelativeLayout
+        android:id="@+id/time_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/seen_time"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/button_seen_time"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:paddingHorizontal="8dp"
+            android:background="@drawable/button_accent_background"
+            android:text="choose loose time" />
+
+        <CheckBox
+            android:theme="@style/WhiteControlTheme"
+            android:id="@+id/right_now_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/button_seen_time"
+            android:fontFamily="@font/kristen_itc"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:textColor="#fff"
+            android:buttonTint="@color/colorPrimary"
+            android:text="Right now"
+            />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/create_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="@drawable/button_accent_background"
+        android:paddingHorizontal="8dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/time_container"
+        android:layout_marginTop="40dp"
+        android:text="add comment"/>
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/dog_icon" />
+
+
+
+</RelativeLayout>

@@ -15,8 +15,8 @@ namespace LostAnimalsAPI.Controllers
     [ApiController]
     public class ShelterController : BaseController
     {
-        private AnimalsDbContext _ctx;
-        private IFileHelper _fileHelper;
+        private readonly AnimalsDbContext _ctx;
+        private readonly IFileHelper _fileHelper;
 
         public ShelterController(
             AnimalsDbContext ctx,

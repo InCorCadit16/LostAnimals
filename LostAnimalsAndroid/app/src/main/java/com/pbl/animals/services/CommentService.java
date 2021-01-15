@@ -28,4 +28,8 @@ public class CommentService {
     public void getCommentsByPostId(long postId, Callback<Comment[]> callback) {
         api.getCommentsByPostId(postId).enqueue(callback);
     }
+
+    public void createComment(Comment comment, Callback<Void> callback) {
+        api.createComment(comment).enqueue(callback);
+    }
 }

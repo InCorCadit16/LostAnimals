@@ -45,6 +45,7 @@
         <activity android:name=".ui.activities.EditPostActivity" />
         <activity android:name=".ui.activities.MapPointPickerActivity" />
         <activity android:name=".ui.activities.MapActivity" />
+        <activity android:name=".ui.activities.CreateCommentActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

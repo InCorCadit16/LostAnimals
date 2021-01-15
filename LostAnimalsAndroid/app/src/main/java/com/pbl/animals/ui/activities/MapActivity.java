@@ -27,10 +27,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MapActivity extends AuthenticationActivity implements OnMapReadyCallback {
+    public static final String FOCUS_LONGITUDE = "Focus Lng";
+    public static final String FOCUS_LATITUDE = "Focus Lat";
+
     private CommentService commentService;
 
     private long postId;
     private Location location;
+    private Location focusLocation;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,6 +46,11 @@ public class MapActivity extends AuthenticationActivity implements OnMapReadyCal
         location = new Location();
         location.latitude = getIntent().getDoubleExtra(MapPointPickerActivity.Latitude,-1);
         location.longitude = getIntent().getDoubleExtra(MapPointPickerActivity.Longitude,-1);
+
+        focusLocation = new Location();
+        focusLocation.latitude = getIntent().getDoubleExtra(FOCUS_LATITUDE, -1);
+        focusLocation.longitude = getIntent().getDoubleExtra(FOCUS_LONGITUDE, -1);
+
         postId = getIntent().getLongExtra(PostActivity.POST_ID, -1);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -50,8 +59,10 @@ public class MapActivity extends AuthenticationActivity implements OnMapReadyCal
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng looseLocation = new LatLng(location.latitude, location.longitude);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(looseLocation,14));
+        LatLng looseLocation = focusLocation.latitude == -1 && focusLocation.longitude == -1 ?
+                new LatLng(location.latitude, location.longitude) :
+                new LatLng(focusLocation.latitude, focusLocation.longitude);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(looseLocation,18));
 
         if (postId != -1) {
             displayPost(googleMap);

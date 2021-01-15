@@ -65,6 +65,9 @@ interface LostAnimalsApi {
     @GET("comments/post/{postId}")
     Call<Comment[]> getCommentsByPostId(@Path("postId") long postId);
 
+    @POST("comments")
+    Call<Void> createComment(@Body() Comment comment);
+
     // Lookups
     @GET("lookup")
     Call<LookupsResponse> getLookups();

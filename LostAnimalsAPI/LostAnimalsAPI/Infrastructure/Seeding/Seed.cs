@@ -262,6 +262,7 @@ namespace LostAnimalsAPI.Infrastructure.Seeding
                             Address = "",
                             Latitude = 47.034586,
                             Longitude = 28.819489
+
                         },
                         SeenTime = new DateTime(2020, 12, 4, 9, 12, 0),
                         CommentTime = new DateTime(2020, 12, 4, 14, 0, 0),
@@ -302,8 +303,8 @@ namespace LostAnimalsAPI.Infrastructure.Seeding
                         Location = new Location
                         {
                             Address = "",
-                            Latitude = 47.044221,
-                            Longitude = 28.88328
+                            Latitude = 47.044223,
+                            Longitude = 28.883295
                         },
                         SeenTime = new DateTime(2020, 11, 22, 16, 10, 0),
                         CommentTime = new DateTime(2020, 11, 22, 16, 10, 0),
