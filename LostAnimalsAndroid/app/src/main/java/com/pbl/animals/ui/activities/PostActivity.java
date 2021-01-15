@@ -122,6 +122,12 @@ public class PostActivity extends AuthenticationActivity {
                         commentButton.setVisibility(View.GONE);
                     }
 
+                    commentButton.setOnClickListener((View v) -> {
+                        Intent i = new Intent(PostActivity.this, CreateCommentActivity.class);
+                        i.putExtra(POST_ID, post.id);
+                        startActivity(i);
+                    });
+
                     onCreateOptionsMenu(toolbar.getMenu());
                 } else {
                     Toast.makeText(PostActivity.this, R.string.request_error, Toast.LENGTH_LONG).show();
@@ -277,6 +283,17 @@ public class PostActivity extends AuthenticationActivity {
                         ImageHelper.getScaledBitmap(bitmap,
                                 ImageHelper.DpToPx(50, PostActivity.this)));
             }
+
+            itemView.setOnClickListener((View v) -> {
+                Intent i = new Intent(PostActivity.this, MapActivity.class);
+                i.putExtra(PostActivity.POST_ID, post.id);
+                i.putExtra(MapPointPickerActivity.Longitude, post.location.longitude);
+                i.putExtra(MapPointPickerActivity.Latitude, post.location.latitude);
+
+                i.putExtra(MapActivity.FOCUS_LONGITUDE, comment.location.longitude);
+                i.putExtra(MapActivity.FOCUS_LATITUDE, comment.location.latitude);
+                startActivity(i);
+            });
         }
     }
 }

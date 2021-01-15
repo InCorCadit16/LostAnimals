@@ -3,7 +3,6 @@ package com.pbl.animals.ui.activities;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,7 +24,6 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import com.mobsandgeeks.saripaar.ValidationError;
@@ -34,14 +32,11 @@ import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.pbl.animals.R;
 import com.pbl.animals.models.Location;
-import com.pbl.animals.models.Post;
 import com.pbl.animals.models.contracts.requests.CreatePostRequest;
 import com.pbl.animals.models.contracts.responses.LookupsResponse;
 import com.pbl.animals.models.inner.BreedLookup;
-import com.pbl.animals.models.inner.ColorLookup;
 import com.pbl.animals.models.inner.PostType;
 import com.pbl.animals.models.inner.Size;
-import com.pbl.animals.models.inner.SpeciesLookup;
 import com.pbl.animals.services.LookupService;
 import com.pbl.animals.services.PostService;
 import com.pbl.animals.utils.ImageHelper;
@@ -100,7 +95,7 @@ public class CreatePostActivity extends AuthenticationActivity implements Valida
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_post);
+        setContentView(R.layout.activity_post_activity);
 
         lookupService = LookupService.getLookupService(this);
         postService = PostService.getPostService(this);

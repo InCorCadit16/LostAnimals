@@ -3,7 +3,8 @@ using System.Threading.Tasks;
 using LostAnimalsAPI.Database;
 using LostAnimalsAPI.Helpers.Base;
 using LostAnimalsAPI.Models;
-using Microsoft.AspNetCore.Authorization;
+using LostAnimalsAPI.Models.Auth;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,15 +15,21 @@ namespace LostAnimalsAPI.Controllers
     [ApiController]
     public class CommentsController : BaseController
     {
-        private AnimalsDbContext _ctx;
-        private IFileHelper _fileHelper;
+        private readonly AnimalsDbContext _ctx;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IFileHelper _fileHelper;
+        private readonly ICurrentUserHelper _userHelper;
 
         public CommentsController(
             AnimalsDbContext ctx,
-            IFileHelper fileHelper)
+            UserManager<ApplicationUser> userManager,
+            IFileHelper fileHelper,
+            ICurrentUserHelper userHelper)
         {
             _ctx = ctx;
+            _userManager = userManager;
             _fileHelper = fileHelper;
+            _userHelper = userHelper;
         }
 
         [HttpGet]
@@ -64,7 +71,10 @@ namespace LostAnimalsAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddComment([FromBody] Comment comment)
         {
+            comment.Author = await _userManager.FindByEmailAsync(_userHelper.Email);
+            comment.Post = await _ctx.Posts.FirstOrDefaultAsync(c => c.Id == comment.PostId);
             _ctx.Attach(comment);
+            
             _ctx.Comments.Add(comment);
             await _ctx.SaveChangesAsync();
             return Ok();

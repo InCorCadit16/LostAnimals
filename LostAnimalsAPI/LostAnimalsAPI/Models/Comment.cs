@@ -10,6 +10,7 @@ namespace LostAnimalsAPI.Models
     public class Comment: ModelBase
     {
         public string Content { get; set; }
+        public long AuthorId { get; set; }
         public ApplicationUser Author { get; set; }
         public long PostId { get; set; }
         public Post Post { get; set; }
